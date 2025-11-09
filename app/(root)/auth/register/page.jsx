@@ -24,6 +24,7 @@ import { FaRegEye } from "react-icons/fa";
 import Link from 'next/link'
 import { WEBSITE_LOGIN } from '@/routes/WebsiteRoute'
 import axios from 'axios'
+import { showToast } from '@/lib/showToast'
 
 const RegisterPage = () => {
 
@@ -60,12 +61,11 @@ const RegisterPage = () => {
                 throw new Error(registerResponse.message)
           }
 
-          form.reset()
-          alert(registerResponse.message)
+        form.reset()
+          showToast("success",registerResponse.message)
           
         } catch (error) {
-          alert(error.message)
-          
+         showToast("error",registerResponse.message)
         }finally{
           setLoading(false)
         }
