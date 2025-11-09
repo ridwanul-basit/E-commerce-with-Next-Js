@@ -1,149 +1,159 @@
 'use client'
-import { Card, CardContent } from '@/components/ui/card'
+
 import React, { useState } from 'react'
-import Logo from '@/public/assets/images/logo-black.png'
 import Image from 'next/image'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { zschema } from '@/lib/ZodSchema'
-// import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  useFormField,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useForm } from 'react-hook-form'
-import { ButtonLoading } from '@/components/Application/ButtonLoading'
-import {z} from 'zod'
-import { FaRegEyeSlash } from "react-icons/fa"
-import { FaRegEye } from "react-icons/fa";
 import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
+import { Card, CardContent } from '@/components/ui/card'
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { ButtonLoading } from '@/components/Application/ButtonLoading'
+import { showToast } from '@/lib/showtoast'
 import { WEBSITE_REGISTER } from '@/routes/WebsiteRoute'
+
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
+import Logo from '@/public/assets/images/logo-black.png'
 import axios from 'axios'
-import { showToast } from '@/lib/showToast'
 
-
-
-
-
+// ✅ Zod validation schema
+const formSchema = z.object({
+  email: z.string().email("Invalid email"),
+  password: z.string().min(3, "Password is required")
+})
 
 const LoginPage = () => {
+  const [loading, setLoading] = useState(false)
+  const [isTypePassword, setIsTypePassword] = useState(true)
 
-    const [loading,setLoading] = useState(false)
-    const [isTypePassword,setisTypePassword] = useState(true)
-
-    const formSchema = zschema.pick({
-        email: true, 
-    }).extend({
-        password: z.string().min('3', "Password field is required")
-    })
-
-
-    const form = useForm({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            email:"",
-            password:"",            
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+      password: '',
     },
-
   })
 
-     const handleLoginSubmit = async (values) => {
+  const handleLoginSubmit = async (values) => {
+    try {
+      setLoading(true)
 
-        try {
-          setLoading(true)
-          const {data:registerResponse} = await axios.post('/api/auth/login',values)
-          if (!registerResponse.success){
-                throw new Error(registerResponse.message)
-          }
+      const { data } = await axios.post('/api/auth/login', values)
 
-          form.reset()
-              showToast("success",registerResponse.message)
-              
-            } catch (error) {
-              showToast("error",registerResponse.message)
-            }finally{
-              setLoading(false)
-            }
+      if (!data.success) {
+        // Backend might respond with 401 (email not verified) or 404 (invalid credentials)
+        throw new Error(data.message)
+      }
 
-        
-     }
+      // ✅ Reset form
+      form.reset()
+
+      // ✅ Show success toast
+      showToast("success", data.message)
+
+      // ✅ Redirect to OTP verification page
+      if (data.email) {
+        window.location.href = `/auth/verify-otp?email=${data.email}`
+      }
+
+    } catch (error) {
+      showToast("error", error.response?.data?.message || error.message || "Something went wrong")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
-    <Card className='w-[400px]'>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <Card className="w-[400px]">
         <CardContent>
-            <div className='flex justify-center'>
-                <Image src={Logo.src} width={Logo.width} height={Logo.height}  alt='logo' className='max-w-[130px]'/>
-            </div>
-            <div className='text-center'>
-                <h1 className='text-3xl font-bold'>Log Into Account</h1>
-                <p>Log into your account with email and password</p>
+          {/* Logo */}
+          <div className="flex justify-center mb-4">
+            <Image 
+              src={Logo.src} 
+              width={Logo.width} 
+              height={Logo.height} 
+              alt="logo" 
+              className="max-w-[130px]" 
+            />
+          </div>
 
-            </div>
+          {/* Heading */}
+          <div className="text-center mb-5">
+            <h1 className="text-3xl font-bold">Log Into Account</h1>
+            <p>Log into your account with email and password</p>
+          </div>
 
-            <div className='mt-5'>
-                <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleLoginSubmit)} >
-        <div className='mb-5'>
-            <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type='email' placeholder="example@gmail.com" {...field} />
-              </FormControl>
-              
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        </div>
-        <div className='mb-5'>
-            <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem className='relative'>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input type={isTypePassword  ? 'password' : "text"} placeholder="********" {...field} />
-                
-              </FormControl>
-              <button className='absolute top-1/2 right-2 cursor-pointer '  type='button' onClick={()=> setisTypePassword(!isTypePassword) }>
-                    {isTypePassword ? <FaRegEyeSlash/> : <FaRegEye/>}
-                </button>
-              
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        </div>
-        <div className='mb-3'>
-            <ButtonLoading loading={loading} type="submit" text="Login" className='w-full cursor-pointer ' />
-        </div>
+          {/* Form */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleLoginSubmit)}>
+              {/* Email */}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="mb-5">
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="example@gmail.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-        <div className='text-center'>
-           <div className='flex justify-center items-center gap-1'>
-             <p> Don't have account?</p>
-            <Link href={WEBSITE_REGISTER} className='text-primary underline'> Create Account</Link>
-           </div>
-           <div className='mt-3'>
-            <Link href='' className='text-primary underline'> Forgot Password?</Link>
-           </div>
+              {/* Password */}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="mb-5 relative">
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type={isTypePassword ? 'password' : 'text'}
+                        placeholder="********"
+                        {...field}
+                      />
+                    </FormControl>
+                    <button
+                      type="button"
+                      className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer"
+                      onClick={() => setIsTypePassword(!isTypePassword)}
+                    >
+                      {isTypePassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                    </button>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-        </div>
-       
-      </form>
-    </Form>
-            </div>
+              {/* Submit */}
+              <div className="mb-3">
+                <ButtonLoading loading={loading} type="submit" text="Login" className="w-full" />
+              </div>
 
+              {/* Links */}
+              <div className="text-center mt-4">
+                <div className="flex justify-center items-center gap-1">
+                  <p>Don't have an account?</p>
+                  <Link href={WEBSITE_REGISTER} className="text-primary underline">
+                    Create Account
+                  </Link>
+                </div>
+                <div className="mt-3">
+                  <Link href="/auth/forgot-password" className="text-primary underline">
+                    Forgot Password?
+                  </Link>
+                </div>
+              </div>
+            </form>
+          </Form>
         </CardContent>
-    </Card>
+      </Card>
+    </div>
   )
 }
 

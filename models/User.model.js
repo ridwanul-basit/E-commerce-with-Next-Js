@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
+
 
 const userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
     enum: ["user", "admin"],
-    default: "user"
+    default: "user",
   },
   name: {
     type: String,
@@ -26,34 +27,19 @@ const userSchema = new mongoose.Schema({
     select: false,
   },
   avatar: {
-    url: {
-      type: String,
-      trim: true,
-    },
-    public_id: {
-      type: String,
-      trim: true,
-    }
+    url: { type: String, trim: true },
+    public_id: { type: String, trim: true },
   },
   isEmailVerified: {
     type: Boolean,
     default: false,
   },
-  phone: {
-    type: String,
-    trim: true,
-  },
-  address: {
-    type: String,
-    trim: true,
-  },
-  deletedAt: {
-    type: Date,
-    default: null,
-    index: true,
-  },
+  phone: { type: String, trim: true },
+  address: { type: String, trim: true },
+  deletedAt: { type: Date, default: null, index: true },
 }, { timestamps: true });
 
+// ✅ REMOVE the pre-save hook
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);

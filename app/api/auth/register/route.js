@@ -4,7 +4,7 @@ import { sendMail } from "@/lib/sendMail";
 import { zschema } from "@/lib/ZodSchema";
 import UserModel from "@/models/User.model";
 import { SignJWT } from "jose";
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcrypt";
 import { emailVerificationLink } from "@/email/emailVerification";
 export async function POST(request) {
   try {
@@ -20,9 +20,8 @@ export async function POST(request) {
     const checkUser = await UserModel.exists({ email });
     if (checkUser) return response(false, 409, "User already registered");
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newRegistration = new UserModel({ name, email, password: hashedPassword });
-    await newRegistration.save();
+    const newRegistration = new UserModel({ name, email, password });
+await newRegistration.save();
 
     const secret = new TextEncoder().encode(process.env.SECRET_KEY);
     const token = await new SignJWT({ userId: newRegistration._id.toString() }) // <-- FIXED

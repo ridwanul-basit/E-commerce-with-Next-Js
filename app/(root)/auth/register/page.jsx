@@ -24,7 +24,7 @@ import { FaRegEye } from "react-icons/fa";
 import Link from 'next/link'
 import { WEBSITE_LOGIN } from '@/routes/WebsiteRoute'
 import axios from 'axios'
-import { showToast } from '@/lib/showToast'
+import { showToast } from '@/lib/showtoast'
 
 const RegisterPage = () => {
 
@@ -53,26 +53,26 @@ const RegisterPage = () => {
   })
 
      const handleRegisterSubmit = async (values) => {
+  try {
+    setLoading(true);
 
-        try {
-          setLoading(true)
-          const {data:registerResponse} = await axios.post('/api/auth/register',values)
-          if (!registerResponse.success){
-                throw new Error(registerResponse.message)
-          }
+    const { data } = await axios.post('/api/auth/register', values); // data is your API response
 
-        form.reset()
-          showToast("success",registerResponse.message)
-          
-        } catch (error) {
-         showToast("error",registerResponse.message)
-        }finally{
-          setLoading(false)
-        }
-        
+    if (!data.success) {
+      throw new Error(data.message); // throw error if API returns success: false
+    }
 
-        
-     }
+    form.reset();
+    showToast("success", data.message); // use the response message
+
+  } catch (error) {
+    // show the error message properly
+    showToast("error", error?.message || "Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
+
   return (
     <Card className='w-[400px]'>
         <CardContent>
