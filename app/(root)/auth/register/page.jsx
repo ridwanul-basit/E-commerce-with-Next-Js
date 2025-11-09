@@ -23,6 +23,7 @@ import { FaRegEyeSlash } from "react-icons/fa"
 import { FaRegEye } from "react-icons/fa";
 import Link from 'next/link'
 import { WEBSITE_LOGIN } from '@/routes/WebsiteRoute'
+import axios from 'axios'
 
 const RegisterPage = () => {
 
@@ -50,7 +51,24 @@ const RegisterPage = () => {
 
   })
 
-     const handleRegisterSubmit = async (value) => {
+     const handleRegisterSubmit = async (values) => {
+
+        try {
+          setLoading(true)
+          const {data:registerResponse} = await axios.post('/api/auth/register',values)
+          if (!registerResponse.success){
+                throw new Error(registerResponse.message)
+          }
+
+          form.reset()
+          alert(registerResponse.message)
+          
+        } catch (error) {
+          alert(error.message)
+          
+        }finally{
+          setLoading(false)
+        }
         
 
         
