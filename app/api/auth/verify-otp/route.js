@@ -7,7 +7,7 @@ import UserModel from "@/models/User.model";
 import User from "@/models/User.model";
 import { SignJWT } from "jose";
 
-export async function POST(req) {
+export async function POST(request) {
   try {
     await connectDB();
       const payload =  await request.json()

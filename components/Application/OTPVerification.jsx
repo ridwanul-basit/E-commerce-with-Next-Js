@@ -1,12 +1,16 @@
 import { zschema } from '@/lib/ZodSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ButtonLoading } from './ButtonLoading'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp'
+import { showToast } from '@/lib/showtoast'
+import axios from 'axios'
 
 const OTPVerification = ({email,onSubmit,loading}) => {
+
+    const[isResendingOtp,setIsResendingOtp] = useState(false)
 
       const formSchema = zschema.pick({
         otp:true , email:true
@@ -20,9 +24,36 @@ const OTPVerification = ({email,onSubmit,loading}) => {
         }
       })
 
+  
+
 const handleOtpVerification = async (values) => {
         onSubmit(values)
       }
+
+ const resendOTP = async () => {
+        try {
+      setIsResendingOtp(true)
+
+      const { data } = await axios.post('/api/auth/resend-otp',{ email })
+
+      if (!data.success) {
+        // Backend might respond with 401 (email not verified) or 404 (invalid credentials)
+        throw new Error(data.message)
+      }
+      // ✅ Show success toast
+      showToast("success", data.message)
+
+
+      // ✅ Redirect to OTP verification page
+     
+
+    } catch (error) {
+      showToast("error", error.response?.data?.message || error.message || "Something went wrong")
+    } finally {
+      setIsResendingOtp(false)
+    }
+    
+  }
 
   return (
     <div>
@@ -71,7 +102,7 @@ const handleOtpVerification = async (values) => {
               <div className="mb-3">
                 <ButtonLoading loading={loading} type="submit" text="Verify" className="w-full" />
                 <div className='text-center mt-5'>
-                    <button type='button' className='text-blue-500 cursor-pointer hover:underline'>Resend OTP</button>
+                    <button onClick={resendOTP} type='button' className='text-blue-500 cursor-pointer hover:underline'>Resend OTP</button>
                 </div>
               </div>
 
