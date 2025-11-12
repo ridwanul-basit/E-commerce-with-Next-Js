@@ -66,7 +66,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center ">
       <Card className="w-[400px]">
         <CardContent>
           {/* Logo */}
