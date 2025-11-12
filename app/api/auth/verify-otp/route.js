@@ -6,6 +6,7 @@ import OTPModel from "@/models/Otp.model";
 import UserModel from "@/models/User.model";
 import User from "@/models/User.model";
 import { SignJWT } from "jose";
+import { cookies } from "next/headers";
 
 export async function POST(request) {
   try {
@@ -37,7 +38,7 @@ export async function POST(request) {
 
        }
 
-       const secret = new TextEncoder().encode(process.env.SECRECT_KEY)
+       const secret = new TextEncoder().encode(process.env.SECRET_KEY)
        const token = await new SignJWT(loggedInUserData)
               .setIssuedAt()
               .setExpirationTime("24h")
