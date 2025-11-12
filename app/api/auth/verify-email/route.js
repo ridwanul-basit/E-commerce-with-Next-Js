@@ -1,6 +1,7 @@
 // app/api/auth/verify-email/route.js
 import { connectDB } from "@/lib/db";
-import User from "@/models/User.model";
+import UserModel from "@/models/User.model";
+// import User from "@/models/User.model";
 import { jwtVerify } from "jose";
 
 export async function GET(req) {
@@ -16,7 +17,7 @@ export async function GET(req) {
     const decoded = await jwtVerify(token, secret);
     const userId = decoded.payload.userId;
 
-    const user = await User.findById(userId);
+    const user = await UserModel.findById(userId);
     if (!user) throw new Error("User not found!");
 
     if (!user.isEmailVerified) {

@@ -53,24 +53,24 @@ const RegisterPage = () => {
   })
 
      const handleRegisterSubmit = async (values) => {
-  try {
-    setLoading(true);
+        try {
+          setLoading(true);
 
-    const { data } = await axios.post('/api/auth/register', values); // data is your API response
+          const { data } = await axios.post('/api/auth/register', values); // data is your API response
 
-    if (!data.success) {
-      throw new Error(data.message); // throw error if API returns success: false
-    }
+          if (!data.success) {
+            throw new Error(data.message); // throw error if API returns success: false
+          }
 
-    form.reset();
-    showToast("success", data.message); // use the response message
+          form.reset();
+          showToast("success", data.message); // use the response message
 
-  } catch (error) {
-    // show the error message properly
-    showToast("error", error?.message || "Something went wrong");
-  } finally {
-    setLoading(false);
-  }
+        } catch (error) {
+          // show the error message properly
+          showToast("error", error?.message || "Something went wrong");
+        } finally {
+          setLoading(false);
+        }
 };
 
   return (

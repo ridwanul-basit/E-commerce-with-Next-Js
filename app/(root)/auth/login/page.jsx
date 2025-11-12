@@ -17,6 +17,7 @@ import { WEBSITE_REGISTER } from '@/routes/WebsiteRoute'
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
 import Logo from '@/public/assets/images/logo-black.png'
 import axios from 'axios'
+import OTPVerification from '@/components/Application/OTPVerification'
 
 // ✅ Zod validation schema
 const formSchema = z.object({
@@ -26,7 +27,9 @@ const formSchema = z.object({
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false)
+  const [otpVerificationloading, setOtpVerificationLoading] = useState(false)
   const [isTypePassword, setIsTypePassword] = useState(true)
+  const [otpEmail,setOtpemail] = useState()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -35,6 +38,34 @@ const LoginPage = () => {
       password: '',
     },
   })
+
+  const handleOtpVerification =async (values) => {
+    try {
+      setOtpVerificationLoading(true)
+
+      const { data } = await axios.post('/api/auth/verify-otp', values)
+
+      if (!data.success) {
+        // Backend might respond with 401 (email not verified) or 404 (invalid credentials)
+        throw new Error(data.message)
+      }
+
+      // ✅ Reset form
+      form.reset()
+
+      // ✅ Show success toast
+      showToast("success", data.message)
+      setOtpemail("")
+
+      
+    } catch (error) {
+      showToast("error", error.response?.data?.message || error.message || "Something went wrong")
+    } finally {
+      setOtpVerificationLoading(false)
+    }
+
+    
+  }
 
   const handleLoginSubmit = async (values) => {
     try {
@@ -52,6 +83,7 @@ const LoginPage = () => {
 
       // ✅ Show success toast
       showToast("success", data.message)
+      setOtpemail(values.email)
 
       // ✅ Redirect to OTP verification page
       if (data.email) {
@@ -66,8 +98,8 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center ">
-      <Card className="w-[400px]">
+    <div className="min-h-screen flex items-center justify-center  ">
+      <Card className="w-[400px] ">
         <CardContent>
           {/* Logo */}
           <div className="flex justify-center mb-4">
@@ -80,8 +112,10 @@ const LoginPage = () => {
             />
           </div>
 
-          {/* Heading */}
-          <div className="text-center mb-5">
+          {
+            !otpEmail ?
+            <>
+             <div className="text-center mb-5">
             <h1 className="text-3xl font-bold">Log Into Account</h1>
             <p>Log into your account with email and password</p>
           </div>
@@ -151,6 +185,17 @@ const LoginPage = () => {
               </div>
             </form>
           </Form>
+            </>
+            :
+            <>
+
+              <OTPVerification email={otpEmail} loading={otpVerificationloading} onSubmit={handleOtpVerification} />
+            </>
+
+          }
+
+          {/* Heading */}
+         
         </CardContent>
       </Card>
     </div>
