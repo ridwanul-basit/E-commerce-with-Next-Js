@@ -16,6 +16,9 @@ import logoWhite from '@/public/assets/images/logo-white.png'
 import { Button } from "@/components/ui/button"
 import { LuChevronRight } from "react-icons/lu";
 import { IoMdClose } from "react-icons/io";
+import { adminAppSidebarMenu } from "@/lib/adminSidebarMenu"
+import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible"
+import Link from "next/link"
 
 const AppSidebar = () => {
   return (
@@ -30,8 +33,23 @@ const AppSidebar = () => {
             </div>
         </SidebarHeader>
         <SidebarContent>
-            <SidebarGroup />
-            <SidebarGroup />
+            <SidebarMenu>
+                {adminAppSidebarMenu.map((menu,index)=>(
+                    <Collapsible key={index} className='group/collapsible'> 
+                    <SidebarMenuItem>
+                        <CollapsibleTrigger asChild>
+                        <SidebarMenuButton asChild>
+                            <Link href={menu?.url}>
+                            <menu.icon/>
+                            {menu.title}
+                            </Link>
+                        </SidebarMenuButton>
+                        </CollapsibleTrigger>
+                    </SidebarMenuItem>
+                    
+                    </Collapsible>
+                ))}
+            </SidebarMenu>
         </SidebarContent>
         <SidebarFooter />
     </Sidebar>
