@@ -18,6 +18,8 @@ import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
 import Logo from '@/public/assets/images/logo-black.png'
 import axios from 'axios'
 import OTPVerification from '@/components/Application/OTPVerification'
+import { useDispatch } from 'react-redux'
+import { login } from '@/store/reducer/authReducer'
 
 // ✅ Zod validation schema
 const formSchema = z.object({
@@ -26,6 +28,7 @@ const formSchema = z.object({
 })
 
 const LoginPage = () => {
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [otpVerificationloading, setOtpVerificationLoading] = useState(false)
   const [isTypePassword, setIsTypePassword] = useState(true)
@@ -56,6 +59,7 @@ const LoginPage = () => {
       // ✅ Show success toast
       showToast("success", data.message)
       setOtpemail("")
+      dispatch(login())
 
       
     } catch (error) {

@@ -58,7 +58,7 @@ export async function POST(request) {
        return response(true,200,"Login Successful",loggedInUserData)
 
     
-  } catch (err) {
-     return catchError(err)
+  } catch (error) {
+     return catchError(error)
   }
 }

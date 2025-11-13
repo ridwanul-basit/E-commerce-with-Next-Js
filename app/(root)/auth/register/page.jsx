@@ -81,7 +81,7 @@ const RegisterPage = () => {
             </div>
             <div className='text-center'>
                 <h1 className='text-3xl font-bold'>Create Account</h1>
-                <p>Log into your account with email and password</p>
+                <p>Create account with email and password</p>
 
             </div>
             
@@ -167,7 +167,7 @@ const RegisterPage = () => {
 
         <div className='text-center'>
            <div className='flex justify-center items-center gap-1'>
-             <p> Create account?</p>
+             <p> Already have an account?</p>
             <Link href={WEBSITE_LOGIN} className='text-primary underline'> Login</Link>
            </div>
            {/* <div className='mt-3'>
