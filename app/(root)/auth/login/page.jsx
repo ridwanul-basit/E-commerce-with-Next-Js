@@ -12,7 +12,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { ButtonLoading } from '@/components/Application/ButtonLoading'
 import { showToast } from '@/lib/showtoast'
-import { WEBSITE_REGISTER } from '@/routes/WebsiteRoute'
+import { WEBSITE_REGISTER, WEBSITE_RESETPASSWORD } from '@/routes/WebsiteRoute'
 
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
 import Logo from '@/public/assets/images/logo-black.png'
@@ -59,7 +59,7 @@ const LoginPage = () => {
       // ✅ Show success toast
       showToast("success", data.message)
       setOtpemail("")
-      dispatch(login())
+      dispatch(login(data.data))
 
       
     } catch (error) {
@@ -184,7 +184,7 @@ const LoginPage = () => {
                   </Link>
                 </div>
                 <div className="mt-3">
-                  <Link href="/auth/forgot-password" className="text-primary underline">
+                  <Link href={WEBSITE_RESETPASSWORD} className="text-primary underline">
                     Forgot Password?
                   </Link>
                 </div>
