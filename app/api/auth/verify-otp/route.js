@@ -4,7 +4,6 @@ import { catchError, response } from "@/lib/helperFunction";
 import { zschema } from "@/lib/ZodSchema";
 import OTPModel from "@/models/Otp.model";
 import UserModel from "@/models/User.model";
-import User from "@/models/User.model";
 import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 
