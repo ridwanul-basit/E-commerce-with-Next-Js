@@ -9,7 +9,6 @@ import { AiOutlineLogout } from 'react-icons/ai'
 import { useDispatch } from 'react-redux'
 
 const LogoutButton = () => {
-
     const dispatch= useDispatch()
     const router = useRouter()
     const hangleLogout = async () => {
@@ -22,12 +21,9 @@ const LogoutButton = () => {
             showToast('success', data.message)
             router.push(WEBSITE_LOGIN)
         } catch (error) {
-            showToast('error', error.message)
-            
+            showToast('error', error.message)        
         }
-        
     }
-
   return (
     <DropdownMenuItem onClick={hangleLogout}  className='cursor-pointer'>
     <AiOutlineLogout color='red'/>
@@ -35,5 +31,4 @@ const LogoutButton = () => {
     </DropdownMenuItem>
   )
 }
-
 export default LogoutButton
