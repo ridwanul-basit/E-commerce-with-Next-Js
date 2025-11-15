@@ -33,7 +33,7 @@ const AppSidebar = () => {
             </div>
         </SidebarHeader>
         <SidebarContent>
-            <SidebarMenu>
+            <SidebarMenu className='mx-3'>  
                 {adminAppSidebarMenu.map((menu,index)=>(
                     <Collapsible key={index} className='group/collapsible'> 
                     <SidebarMenuItem>
