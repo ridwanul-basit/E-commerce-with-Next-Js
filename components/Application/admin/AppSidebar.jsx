@@ -21,6 +21,7 @@ import { adminAppSidebarMenu } from "@/lib/adminSidebarMenu"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import Link from "next/link"
 
+
 const AppSidebar = () => {
     const {toggleSidebar} = useSidebar()
   return (
