@@ -13,5 +13,4 @@ const GlobalProvider = ( {children}) => {
     </Provider>
   )
 }
-
 export default GlobalProvider

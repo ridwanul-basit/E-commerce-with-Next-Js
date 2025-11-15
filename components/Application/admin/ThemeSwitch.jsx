@@ -28,5 +28,4 @@ const ThemeSwitch = () => {
     </DropdownMenu>
   )
 }
-
 export default ThemeSwitch

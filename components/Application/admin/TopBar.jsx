@@ -13,7 +13,6 @@ const TopBar = () => {
       <div>
       search
       </div>
-
       <div className='flex items-center gap-2'>
            <ThemeSwitch/>
            <UserDropdown/>
@@ -24,5 +23,4 @@ const TopBar = () => {
     </div>
   )
 }
-
 export default TopBar

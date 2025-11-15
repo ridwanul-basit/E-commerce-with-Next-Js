@@ -45,7 +45,7 @@ const AppSidebar = () => {
                             <Link href={menu?.url}>
                             <menu.icon/>
                             {menu.title}
-                            {menu.submenu && menu.submenu.length> 0 && <LuChevronRight className="ml auto transition-transform duration-200 group-data-[state==open]/collapsible:rotate-90"/> }
+                            {menu.submenu && menu.submenu.length> 0 && <LuChevronRight className="ml auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"/> }
                             </Link>
                         </SidebarMenuButton>
                         </CollapsibleTrigger>

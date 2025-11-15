@@ -37,7 +37,7 @@ const LoginPage = () => {
   const [otpVerificationloading, setOtpVerificationLoading] = useState(false)
   const [isTypePassword, setIsTypePassword] = useState(true)
   const [otpEmail,setOtpemail] = useState()
-
+  
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,21 +45,16 @@ const LoginPage = () => {
       password: '',
     },
   })
-
   const handleOtpVerification =async (values) => {
     try {
       setOtpVerificationLoading(true)
-
       const { data } = await axios.post('/api/auth/verify-otp', values)
-
       if (!data.success) {
         // Backend might respond with 401 (email not verified) or 404 (invalid credentials)
         throw new Error(data.message)
       }
-
       // ✅ Reset form
       form.reset()
-
       // ✅ Show success toast
       showToast("success", data.message)
       setOtpemail("")
@@ -68,37 +63,26 @@ const LoginPage = () => {
         router.push(searchParams.get('callback'))
       }else{
         data.data.role === 'admin' ? router.push(ADMIN_DASHBOARD) : router.push(USER_DASHBOARD)
-      }
-      
+      }     
     } catch (error) {
       showToast("error", error.response?.data?.message || error.message || "Something went wrong")
     } finally {
       setOtpVerificationLoading(false)
-    }
-
-    
+    }    
   }
-
-  
-
   const handleLoginSubmit = async (values) => {
     try {
       setLoading(true)
-
       const { data } = await axios.post('/api/auth/login', values)
-
       if (!data.success) {
         // Backend might respond with 401 (email not verified) or 404 (invalid credentials)
         throw new Error(data.message)
       }
-
       // ✅ Reset form
       form.reset()
-
       // ✅ Show success toast
       showToast("success", data.message)
       setOtpemail(values.email)
-
       // ✅ Redirect to OTP verification page
       if (data.email) {
         window.location.href = `/auth/verify-otp?email=${data.email}`
@@ -110,7 +94,6 @@ const LoginPage = () => {
       setLoading(false)
     }
   }
-
   return (
     <div className="min-h-screen flex items-center justify-center  ">
       <Card className="w-[400px] ">
@@ -125,7 +108,6 @@ const LoginPage = () => {
               className="max-w-[130px]" 
             />
           </div>
-
           {
             !otpEmail ?
             <>
@@ -133,7 +115,6 @@ const LoginPage = () => {
             <h1 className="text-3xl font-bold">Log Into Account</h1>
             <p>Log into your account with email and password</p>
           </div>
-
           {/* Form */}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleLoginSubmit)}>
@@ -151,7 +132,6 @@ const LoginPage = () => {
                   </FormItem>
                 )}
               />
-
               {/* Password */}
               <FormField
                 control={form.control}
@@ -177,12 +157,10 @@ const LoginPage = () => {
                   </FormItem>
                 )}
               />
-
               {/* Submit */}
               <div className="mb-3">
                 <ButtonLoading loading={loading} type="submit" text="Login" className="w-full" />
               </div>
-
               {/* Links */}
               <div className="text-center mt-4">
                 <div className="flex justify-center items-center gap-1">
@@ -202,12 +180,9 @@ const LoginPage = () => {
             </>
             :
             <>
-
               <OTPVerification email={otpEmail} loading={otpVerificationloading} onSubmit={handleOtpVerification} />
             </>
-
           }
-
           {/* Heading */}
          
         </CardContent>

@@ -26,8 +26,8 @@ const LogoutButton = () => {
     }
   return (
     <DropdownMenuItem onClick={hangleLogout}  className='cursor-pointer'>
-    <AiOutlineLogout color='red'/>
-    Logout
+        <AiOutlineLogout color='red'/>
+        Logout
     </DropdownMenuItem>
   )
 }

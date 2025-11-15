@@ -25,26 +25,20 @@ const UserDropdown = () => {
   </DropdownMenuTrigger>
   <DropdownMenuContent className='me-5 w-44'>
     <DropdownMenuLabel >
-        <p className="font-semibold">{auth?.name}</p>
-       
+        <p className="font-semibold">{auth?.name}</p>      
     </DropdownMenuLabel>
     <DropdownMenuSeparator />
     <DropdownMenuItem asChild><Link href="" className="cursor-pointer">
     <IoShirtOutline/>
-    New Product
+       New Product
     </Link></DropdownMenuItem>
-    
     <DropdownMenuItem asChild><Link href="" className="cursor-pointer">
     <MdOutlineShoppingBag/>
-    Orders
+        Orders
     </Link></DropdownMenuItem>
-
-    <LogoutButton/>
-
-    
+    <LogoutButton/>  
   </DropdownMenuContent>
 </DropdownMenu>
   )
 }
-
 export default UserDropdown
