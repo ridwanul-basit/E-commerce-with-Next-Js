@@ -39,9 +39,8 @@ const mediaSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// TTL index to auto-delete expired OTPs
-otpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
-const MediaModel = mongoose.models.Meida || mongoose.model("Media", mediaSchema, "medias");
+
+const MediaModel = mongoose.models.Media || mongoose.model("Media", mediaSchema, "medias");
 
 export default MediaModel;
