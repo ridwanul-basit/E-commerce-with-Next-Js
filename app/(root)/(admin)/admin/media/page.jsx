@@ -2,26 +2,52 @@ import BreadCrumb from '@/components/Application/admin/BreadCrumb'
 import UploadMedia from '@/components/Application/admin/UploadMedia'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { ADMIN_DASHBOARD, ADMIN_MEDIA_SHOW } from '@/routes/AdminPanelRoute'
-import React from 'react'
+import { useInfiniteQuery } from '@tanstack/react-query'
+// import React, { useState } from 'react'
 
-const MediaPage = () => {
 
     const breadcrumbData = [
         {href: ADMIN_DASHBOARD, label: 'Home' },
         {href: '', label: 'Media' },
     ]
+const MediaPage = () => {
+
+    // const [deleteType,setdeleteType]= useState('SD')
+    
+    // const fetchMedia = async (page,deleteType) => {
+    //     const {data: response } = await axios.get(`api/media?page=${page}&&limit=10&&deeleteType=${deleteType}`)
+
+    // }
+
+    //   const {
+    //     data,
+    //     error,
+    //     fetchNextPage,
+    //     hasNextPage,
+    //     isFetching,
+    //     isFetchingNextPage,
+    // } = useInfiniteQuery({
+    //     queryKey: ['media-data',deleteType],
+    //     queryFn: async({pageParams}) => await fetchMedia(pageParams,deleteType),
+    //     initialPageParam: 0,
+    //     getNextPageParam: (lastPage, pages) => {
+    //         const nextPage = page.length
+    //         return lastPage.hasMore ? nextPage : undefined
+    //     }
+    // })
+
+
+
   return (
     <div>
       <BreadCrumb breadcrumbData={breadcrumbData}/>
-     
-      <Card className=' py-0 rounded shadow-sm'>
+      <Card className='py-0 rounded shadow-sm'>
         <CardHeader className='pt-3 py-2 px-3 border-b [.border-b]:py-2 '> 
             <div className='flex justify-between items-center'>
                 <h4>Media</h4>
                 <div className='flex items-center gap-5'>
-                     <UploadMedia/>
+                      <UploadMedia/>
                 </div>
-
             </div>
         </CardHeader>
         <CardContent>
@@ -31,5 +57,4 @@ const MediaPage = () => {
     </div>
   )
 }
-
 export default MediaPage
