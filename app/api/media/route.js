@@ -7,10 +7,10 @@ export async function GET(request) {
     try {
 
         await connectDB()
-        const searchPrams = request.nextUrl.searchPrams;
-        const page = parseInt(searchPrams.get('page'),10) || 0
-        const limit = parseInt(searchPrams.get('limit'),10) || 0
-        const deleteType = searchPrams.get('deleteType')
+        const searchParams = request.nextUrl.searchParams;
+        const page = parseInt(searchParams.get('page'),10) || 0
+        const limit = parseInt(searchParams.get('limit'),10) || 10
+        const deleteType = searchParams.get('deleteType')
 
         let filter = {}
         if (deleteType === "SD"){
