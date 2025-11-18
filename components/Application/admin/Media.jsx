@@ -23,7 +23,7 @@ const Media = ({media,handleDelete,deleteType,selectedMedia,setSelectedMedia}) =
                     alt={media?.alt || "Image"}
                     height={300}
                     width={300}
-                    className='object-cover w-full sm:h-[200px] h-[150px]'
+                    className='object-contain w-full sm:h-[200px] h-[150px]'
                 />
             </div>
       </div>

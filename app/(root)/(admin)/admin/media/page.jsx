@@ -75,7 +75,7 @@ const MediaPage = () => {
 
             </div>
             :
-            <div className='grid lf:grid-cols-5 grid-cols-2 gap-2 mb-5'>
+            <div className='grid lg:grid-cols-5 grid-cols-2 gap-2 mb-5'>
               {
                  data?.pages?.map( (page,index) => (
                   <React.Fragment key={index}>

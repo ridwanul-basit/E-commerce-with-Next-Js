@@ -11,28 +11,40 @@ const UploadMedia = ({isMultiple}) => {
         showToast('error',error.statusText)
 
     }
-    const handleOnQueueEnd = async (results) =>{
-        const files = results.info.files 
-        const uploadedFiles = files.filter(file=>file.uploadInfo).map(file =>({
-            asset_id : file.uploadInfo.asset_id,
-            public_id : file.uploadInfo.public_id,
-            secure_url : file.uploadInfo.secure_url,
-            path : file.uploadInfo.path,
-            thumbnail_url : file.uploadInfo.thumbnail_url,
-        }))
-        if(uploadedFiles.length > 0 ){
-            try {
-                const data = await axios.post('/api/media/create',uploadedFiles)
-                if(!data.data.success){
-                    throw new Error(data.data.message)
-                }
-                showToast('success',data.data.message)
-            } catch (error) {
-                showToast('error',error.message)
-            }
-        }
+  const handleOnQueueEnd = async (results) => {
+  const files = results.info.files;
 
+  const uploadedFiles = files
+    .filter((file) => file.uploadInfo)
+    .map((file) => {
+      const info = file.uploadInfo;
+
+      const secureUrl = info.secure_url
+        ? info.secure_url
+        : info.url?.replace("http://", "https://");
+
+      return {
+        asset_id: info.asset_id,
+        public_id: info.public_id,
+        secure_url: secureUrl,
+        path: info.path, // usually public_id path
+        thumbnail_url: secureUrl, // or your custom transformation
+      };
+    });
+
+  if (uploadedFiles.length > 0) {
+    try {
+      const data = await axios.post('/api/media/create', uploadedFiles);
+      if (!data.data.success) {
+        throw new Error(data.data.message);
+      }
+      showToast('success', data.data.message);
+    } catch (error) {
+      showToast('error', error.message);
     }
+  }
+};
+
   return (
     <CldUploadWidget 
     signatureEndpoint="/api/cloudinary-signature"
