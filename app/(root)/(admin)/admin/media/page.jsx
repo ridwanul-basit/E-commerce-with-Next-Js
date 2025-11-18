@@ -86,6 +86,7 @@ const MediaPage = () => {
                           handleDelete={handleDelete}
                           deleteType={deleteType}
                           selectedMedia={selectedMedia}
+                          setSelectedMedia={setSelectedMedia}
                           />
                         ))
                     }

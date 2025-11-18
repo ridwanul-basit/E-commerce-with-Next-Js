@@ -10,6 +10,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { MdOutlineEdit } from "react-icons/md";
+import { FaLink } from "react-icons/fa6";
+import { AiTwotoneDelete } from "react-icons/ai";
+import { showToast } from "@/lib/showtoast";
 
 const Media = ({
   media,
@@ -18,8 +22,17 @@ const Media = ({
   selectedMedia,
   setSelectedMedia,
 }) => {
-  const handleCheck = () => {};
+  const handleCheck = () => {
+    let newSelectedMedia = []
 
+    if (selectedMedia.includes(media._id)) {
+      newSelectedMedia = selectedMedia.filter(id => id !== media._id)
+    } else {
+      newSelectedMedia = [...selectedMedia, media._id]
+    }
+
+    setSelectedMedia(newSelectedMedia)
+  }
   return (
     <div>
       <div className="border - border-gray-200 dark:border-gray-800 relative group rounded overflow-hidden">
@@ -34,23 +47,38 @@ const Media = ({
           <DropdownMenu>
             <DropdownMenuTrigger>
               <span className="w-7 h-7 flex items-center justify-center rounded-full bg-black/50 cursor-pointer">
-                <BsThreeDotsVertical color='#fff' />
+                <BsThreeDotsVertical color="#fff" />
               </span>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align='start'>
-                {deleteType === 'SD' && 
+            <DropdownMenuContent align="start">
+              {deleteType === "SD" && 
                 <>
-                <DropdownMenuItem>
-                    <Link> href={ADMIN_MEDIA_EDIT(media._id)}</Link>
-                </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href={ADMIN_MEDIA_EDIT(media._id)}>
+                      <MdOutlineEdit />
+                      Edit
+                    </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem  onClick={()=>handlecopyLink(media.secure_url)}>
+                        <FaLink />
+                        Copy Link
+                    </DropdownMenuItem>
+                  
                 </>
-                }
+              }
+             
+             <DropdownMenuItem >
+                      <Link href={ADMIN_MEDIA_EDIT(media._id)}>
+                        <AiTwotoneDelete color="red" />
+                        {deleteType === 'SD' ? 'Move Into Trash': 'Delete Permanently'}
+                      </Link>
+                    </DropdownMenuItem>
+
+
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="w-full h-full absolute z-10 transition-all duration-150 ease-in group-hover:bg-black/30 ">
-
-        </div>
+        <div className="w-full h-full absolute z-10 transition-all duration-150 ease-in group-hover:bg-black/30 "></div>
         <div>
           <Image
             src={media?.secure_url || "/placeholder.png"}
