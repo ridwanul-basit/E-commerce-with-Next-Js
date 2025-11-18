@@ -1,5 +1,6 @@
 'use client'
 import BreadCrumb from '@/components/Application/admin/BreadCrumb'
+import Media from '@/components/Application/admin/Media'
 import UploadMedia from '@/components/Application/admin/UploadMedia'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { ADMIN_DASHBOARD, ADMIN_MEDIA_SHOW } from '@/routes/AdminPanelRoute'
@@ -15,8 +16,10 @@ import React, { useState } from 'react'
     ]
 const MediaPage = () => {
 
-    const [deleteType,setdeleteType]= useState('SD')
-    
+  const [deleteType,setdeleteType]= useState('SD')
+  const [selectedMedia,setSelectedMedia]= useState([])
+
+  
     const fetchMedia = async (page, deleteType) => {
     const { data } = await axios.get(
       `/api/media?page=${page}&limit=10&deleteType=${deleteType}`
@@ -34,13 +37,17 @@ const MediaPage = () => {
         status
     } = useInfiniteQuery({
         queryKey: ['media-data',deleteType],
-        queryFn: async({pageParams}) => await fetchMedia(pageParams,deleteType),
+        queryFn: async ({ pageParam }) => fetchMedia(pageParam, deleteType),
         initialPageParam: 0,
         getNextPageParam: (lastPage, pages) => {
             const nextPage = pages.length
             return lastPage.hasMore ? nextPage : undefined
         }
     })
+
+    const handleDelete = () =>{
+
+    }
 
 
 
@@ -74,7 +81,12 @@ const MediaPage = () => {
                   <React.Fragment key={index}>
                     {
                         page?.mediaData?.map((media)=>(
-                          <div key={media._id} >{media._id}</div>
+                          <Media key={media._id}
+                          media={media}
+                          handleDelete={handleDelete}
+                          deleteType={deleteType}
+                          selectedMedia={selectedMedia}
+                          />
                         ))
                     }
                   </React.Fragment>
