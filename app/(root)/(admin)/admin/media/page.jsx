@@ -12,29 +12,29 @@ import { useInfiniteQuery } from '@tanstack/react-query'
     ]
 const MediaPage = () => {
 
-    // const [deleteType,setdeleteType]= useState('SD')
+    const [deleteType,setdeleteType]= useState('SD')
     
-    // const fetchMedia = async (page,deleteType) => {
-    //     const {data: response } = await axios.get(`api/media?page=${page}&&limit=10&&deeleteType=${deleteType}`)
+    const fetchMedia = async (page,deleteType) => {
+        const {data: response } = await axios.get(`api/media?page=${page}&&limit=10&&deeleteType=${deleteType}`)
 
-    // }
+    }
 
-    //   const {
-    //     data,
-    //     error,
-    //     fetchNextPage,
-    //     hasNextPage,
-    //     isFetching,
-    //     isFetchingNextPage,
-    // } = useInfiniteQuery({
-    //     queryKey: ['media-data',deleteType],
-    //     queryFn: async({pageParams}) => await fetchMedia(pageParams,deleteType),
-    //     initialPageParam: 0,
-    //     getNextPageParam: (lastPage, pages) => {
-    //         const nextPage = page.length
-    //         return lastPage.hasMore ? nextPage : undefined
-    //     }
-    // })
+      const {
+        data,
+        error,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+    } = useInfiniteQuery({
+        queryKey: ['media-data',deleteType],
+        queryFn: async({pageParams}) => await fetchMedia(pageParams,deleteType),
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, pages) => {
+            const nextPage = page.length
+            return lastPage.hasMore ? nextPage : undefined
+        }
+    })
 
 
 
