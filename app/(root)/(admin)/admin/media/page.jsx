@@ -4,6 +4,8 @@ import Media from "@/components/Application/admin/Media";
 import UploadMedia from "@/components/Application/admin/UploadMedia";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { ADMIN_DASHBOARD, ADMIN_MEDIA_SHOW } from "@/routes/AdminPanelRoute";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -18,6 +20,7 @@ const breadcrumbData = [
 const MediaPage = () => {
   const [deleteType, setDeleteType] = useState("SD");
   const [selectedMedia, setSelectedMedia] = useState([]);
+  const [selectAll,setSelectAll] = useState(false)
 
   const searchParams = useSearchParams();
   
@@ -38,10 +41,7 @@ const MediaPage = () => {
       `/api/media?page=${page}&limit=10&deleteType=${deleteType}`
     );
     return data;
-  };
-
-
-
+  }
   const {
     data,
     error,
@@ -60,7 +60,26 @@ const MediaPage = () => {
     },
   });
 
-  const handleDelete = () => {};
+    const handleSelectAll = async ()=>{
+    setSelectAll(!selectAll)
+
+   }
+
+useEffect(() => {
+  if (!data) return;
+
+  if (selectAll) {
+    const ids = data.pages.flatMap(page =>
+      page.mediaData.map(media => media._id)
+    );
+    setSelectedMedia(ids);
+  } else {
+    setSelectedMedia([]);
+  }
+}, [selectAll, data]);
+
+
+  const handleDelete = (selectedMedia,deleteType) => {};
 
   return (
     <div>
@@ -91,6 +110,29 @@ const MediaPage = () => {
           </div>
         </CardHeader>
         <CardContent>
+
+          {selectedMedia.length>0 &&
+          <div className="py-2 px-3 bg-violate-200 mb-2 rounded flex justify-between items-center">
+             <Label>
+              <Checkbox  
+              checked={selectAll}
+              onCheckedChange={handleSelectAll}
+              className='border-primary'
+              />
+              Select All
+             </Label>
+             <div className="flex gap-2">
+                {deleteType == 'SD' ? 
+                <Button variant='destructive' onClick={()=>handleDelete(selectedMedia,deleteType)}>Move To trash</Button>
+                :
+                <>
+                <Button className='bg-green-400 hover:bg-gren-500' variant='destructive' onClick={()=>handleDelete(selectedMedia,"RSD")}>Restore</Button>
+                <Button className='bg-green-400 hover:bg-gren-500' variant='destructive' onClick={()=>handleDelete(selectedMedia,"RSD")}>Delete Permanently</Button>
+                </>
+              }
+             </div>
+          </div>
+          }
           {status === "pending" ? (
             <>
               <div>Loading...</div>
