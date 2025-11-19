@@ -79,7 +79,15 @@ useEffect(() => {
 }, [selectAll, data]);
 
 
-  const handleDelete = (selectedMedia,deleteType) => {};
+  const handleDelete = (selectedMedia,deleteType) => {
+    let c = true
+    if(deleteType === 'PD'){
+      c = confirm('Are you sure you want to deleet the data permanently')
+    }
+    if(c){
+      
+    }
+  };
 
   return (
     <div>
@@ -123,7 +131,7 @@ useEffect(() => {
              </Label>
              <div className="flex gap-2">
                 {deleteType == 'SD' ? 
-                <Button variant='destructive' onClick={()=>handleDelete(selectedMedia,deleteType)}>Move To trash</Button>
+                <Button className='cursor-pointer' variant='destructive' onClick={()=>handleDelete(selectedMedia,deleteType)}>Move To trash</Button>
                 :
                 <>
                 <Button className='bg-green-400 hover:bg-gren-500' variant='destructive' onClick={()=>handleDelete(selectedMedia,"RSD")}>Restore</Button>
