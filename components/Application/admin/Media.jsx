@@ -33,6 +33,11 @@ const Media = ({
 
     setSelectedMedia(newSelectedMedia)
   }
+
+  const handlecopyLink = async (url) => {
+    await navigator.clipboard.writeText(url)
+    showToast("success", "Link copied!")
+}
   return (
     <div>
       <div className="border - border-gray-200 dark:border-gray-800 relative group rounded overflow-hidden">
@@ -40,7 +45,7 @@ const Media = ({
           <Checkbox
             checked={selectedMedia.includes(media._id)}
             onCheckedChange={handleCheck}
-            className="border-primary"
+            className="border-primary cursor-pointer"
           />
         </div>
         <div className="absolute top-2 right-2 z-20">
@@ -67,7 +72,7 @@ const Media = ({
                 </>
               }
              
-             <DropdownMenuItem >
+             <DropdownMenuItem asChild >
                       <Link href={ADMIN_MEDIA_EDIT(media._id)}>
                         <AiTwotoneDelete color="red" />
                         {deleteType === 'SD' ? 'Move Into Trash': 'Delete Permanently'}
