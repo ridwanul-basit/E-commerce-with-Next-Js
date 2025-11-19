@@ -68,7 +68,7 @@ export async function DELETE(request) {
     const ids = payload.ids || [];
     const deleteType = payload.deleteType;
 
-    if (!Array.isArraay(ids) || ids.length === 0) {
+    if (!Array.isArray(ids) || ids.length === 0) {
       return response(false, 400, "Invalid or empty id list");
     }
 
@@ -79,7 +79,7 @@ export async function DELETE(request) {
       return response(false, 404, "Data not found");
     }
 
-    if (!deleteType === "PD") {
+    if (deleteType !== "PD") {
       return response(
         false,
         400,
@@ -87,7 +87,8 @@ export async function DELETE(request) {
       );
     }
 
-    await MediaModel.deleteMany({ _id: { $in: ids } }.session(session));
+    await MediaModel.deleteMany({ _id: { $in: ids } }).session(session);
+
 
     //delete all mdedia from cloudinary
 
