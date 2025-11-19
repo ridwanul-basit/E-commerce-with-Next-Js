@@ -17,10 +17,10 @@ const useDeleteMutation = (queryKey, deleteEndpoint) => {
         throw new Error(response.message);
       }
 
-      return response.data;
+      return response;
     },
     onSuccess: (data) => {
-      showToast('success', 'Operation successful'); // fixed
+      showToast('success', data.message); // fixed
       queryClient.invalidateQueries([queryKey]);
     },
     onError: (error) => {

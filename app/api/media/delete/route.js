@@ -47,7 +47,7 @@ export async function PUT(request) {
     return response(
       true,
       200,
-      deleteType === "SD" ? "data moved into trash" : "Data restored"
+      deleteType === "SD" ? "Data moved into trash" : "Data restored",
     );
   } catch (error) {
     return catchError(error);
