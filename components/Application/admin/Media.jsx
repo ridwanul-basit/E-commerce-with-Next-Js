@@ -72,12 +72,16 @@ const Media = ({
                 </>
               }
              
-             <DropdownMenuItem asChild >
-                      <Link href={ADMIN_MEDIA_EDIT(media._id)}>
-                        <AiTwotoneDelete color="red" />
-                        {deleteType === 'SD' ? 'Move Into Trash': 'Delete Permanently'}
-                      </Link>
-                    </DropdownMenuItem>
+             <DropdownMenuItem asChild>
+  <button
+    onClick={() => handleDelete([media._id], deleteType)}
+    className="flex items-center gap-2"
+  >
+    <AiTwotoneDelete color="red" />
+    {deleteType === 'SD' ? 'Move Into Trash' : 'Delete Permanently'}
+  </button>
+</DropdownMenuItem>
+
 
 
             </DropdownMenuContent>

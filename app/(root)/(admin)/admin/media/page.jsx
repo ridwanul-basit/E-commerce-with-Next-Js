@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import useDeleteMutation from "@/hooks/useDeleteMutation";
 import { ADMIN_DASHBOARD, ADMIN_MEDIA_SHOW } from "@/routes/AdminPanelRoute";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -78,15 +79,17 @@ useEffect(() => {
   }
 }, [selectAll, data]);
 
-
+  const  deleteMutation = useDeleteMutation('media-data', '/api/media/delete')
   const handleDelete = (selectedMedia,deleteType) => {
     let c = true
     if(deleteType === 'PD'){
       c = confirm('Are you sure you want to deleet the data permanently')
     }
     if(c){
-      
+        deleteMutation.mutate({ ids: selectedMedia, deleteType })
     }
+    setSelectAll(false)
+    setSelectedMedia([])
   };
 
   return (
