@@ -20,12 +20,13 @@ const MediaPage = () => {
   const [selectedMedia, setSelectedMedia] = useState([]);
 
   const searchParams = useSearchParams();
-
+  
   useEffect(() => {
     if (searchParams) {
       const trashOf = searchParams.get("trashof");
+      setSelectedMedia([])
       if (trashOf) {
-        setDeleteType("PD");
+        setDeleteType('PD');
       } else {
         setDeleteType("SD");
       }
@@ -38,6 +39,8 @@ const MediaPage = () => {
     );
     return data;
   };
+
+
 
   const {
     data,
@@ -65,9 +68,12 @@ const MediaPage = () => {
       <Card className="py-0 rounded shadow-sm">
         <CardHeader className="pt-3 py-2 px-3 border-b [.border-b]:py-2 ">
           <div className="flex justify-between items-center">
-            <h4>Media</h4>
+            <h4 className="font-semibold text-xl uppercase">
+             {deleteType === 'SD' ? 'Media' : 'Media trash'}
+              </h4>
             <div className="flex items-center gap-5">
-              <UploadMedia />
+              {deleteType === 'SD' && <UploadMedia /> }
+              
               <div className="flex gap-3">
                 {deleteType === "SD" ? (
                   <Button type="button" variant="destructive">
@@ -77,7 +83,7 @@ const MediaPage = () => {
                   </Button>
                 ) : (
                   <Button type="button">
-                    <Link href={`${ADMIN_MEDIA_SHOW}`}>Trash</Link>
+                    <Link href={`${ADMIN_MEDIA_SHOW}`}>Back To Media</Link>
                   </Button>
                 )}
               </div>
