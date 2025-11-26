@@ -1,4 +1,4 @@
-const { default: axios } = require("axios")
+import axios from "axios"
 const { useState, useMemo, useEffect } = require("react")
 
 const useFetch = (url, method = "GET", options ={})=>{
