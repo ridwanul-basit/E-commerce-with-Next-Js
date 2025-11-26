@@ -27,25 +27,29 @@ const mediaSchema = new mongoose.Schema(
       required: true,
       trim: true
     },
+
+    // These will now save correctly
     alt: {
       type: String,
-      trim: true
+      trim: true,
+      default: ""
     },
     title: {
       type: String,
-      trim: true
+      trim: true,
+      default: ""
     },
+
     deletedAt: {
       type: Date,
-      required:null,
-      index:true
-    },
+      default: null,
+      index: true
+    }
   },
   { timestamps: true }
 );
 
-
-
-const MediaModel = mongoose.models.Media || mongoose.model("Media", mediaSchema, "medias");
+const MediaModel =
+  mongoose.models.Media || mongoose.model("Media", mediaSchema, "medias");
 
 export default MediaModel;

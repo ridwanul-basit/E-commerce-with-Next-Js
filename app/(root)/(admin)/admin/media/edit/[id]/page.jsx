@@ -13,6 +13,7 @@ import React, { use, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import imgPlaceholder from '@/public/assets/images/img-placeholder.webp'
 import axios from 'axios';
+import { showToast } from '@/lib/showtoast';
 
 
 const breadcrumbData = [
@@ -52,7 +53,7 @@ const EditMedia = ({params}) => {
         title: data.title
       })
     }
-  })
+  }, [mediaData])
 
    const onSubmit = async (values) => {
     try {
@@ -82,7 +83,7 @@ const EditMedia = ({params}) => {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className='mb-5'>
-                   <Image src={mediaData?.data?.secure_url || imgPlaceholder} alt={mediaData?.alt || 'Image'} width={150} height={150} />
+                   <Image src={mediaData?.data?.secure_url || imgPlaceholder} alt={mediaData?.data?.alt || 'Image'} width={150} height={150} />
               </div>
               <div className='mb-5'>
                 <FormField
