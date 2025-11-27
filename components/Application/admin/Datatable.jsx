@@ -15,7 +15,7 @@ import { showToast } from "@/lib/showtoast";
 import { download, generateCsv, mkConfig } from "export-to-csv";
 const Datatable = ({
   queryKey,
-  url,
+  fetchUrl,
   columnsConfig,
   initialPlagSize = 10,
   exportEndPoint,
