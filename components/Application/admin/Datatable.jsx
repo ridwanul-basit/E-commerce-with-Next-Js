@@ -7,6 +7,10 @@ import React, { useState } from "react";
 import RecyclingIcon from '@mui/icons-material/Recycling';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import useDeleteMutation from "@/hooks/useDeleteMutation";
+import { ButtonLoading } from "../ButtonLoading";
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
 const Datatable = ({
   queryKey,
   url,
@@ -25,12 +29,24 @@ const Datatable = ({
     pageIndex: 0,
     pageSize: initialPlagSize,
   });
-  const [rowSelection, setRowSelection] = useState();
+  const [rowSelection, setRowSelection] = useState({});
+
+  const [exportLoading,setExportLoading] = useState(false)
   // Data fetching
-   
-    const handleDelete = ({
+   const deleteMutation = useDeleteMutation(queryKey,deleteEndPoint)
+    const handleDelete = (ids, deleteType) => {
+    let c = true;
+    if (deleteType === "PD") {
+      c = confirm("Are you sure you want to deleet the data permanently");
+    }else{
+      c = confirm("Are you sure you want to move data into trash");
+    }
+    if (c) {
+      deleteMutation.mutate({ ids, deleteType });
+      setRowSelection({})
+    }
     
-  })
+  };
   const {
     data: { data = [], meta } = {},
     isError,
@@ -114,23 +130,49 @@ const Datatable = ({
         {deleteType === 'SD' && 
         <Tooltip title='Delete All' >
             <IconButton disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
-            onClick={()=>handleDelete()}
+            onClick={()=>handleDelete(Object.keys(rowSelection),deleteType)}
             >
                 <DeleteIcon/> 
             </IconButton>
           </Tooltip>
         }
         {deleteType === 'PD' && 
+        <>
         <Tooltip title='Restore Data' >
             <IconButton disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
-            onClick={()=>handleDelete()}
+            onClick={()=>handleDelete(Object.keys(rowSelection),'RSD')}
             >
                 <RestoreFromTrashIcon/> 
             </IconButton>
           </Tooltip>
+          <Tooltip title='Permanently Delete Data' >
+            <IconButton disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
+            onClick={()=>handleDelete(Object.keys(rowSelection),deleteType)}
+            >
+                <DeleteForeverIcon/> 
+            </IconButton>
+          </Tooltip>
+        
+        </>
+        
         }
         </>
+    ),
+    enableRowActions:true,
+    positionActionsColumn:'last',
+    renderRowActionMenuItems:({row})=> createAction(row,deleteType,handleDelete),
+
+    renderTopToolbarCustomActions: ({table})=> (
+      <Tooltip>
+        <ButtonLoading 
+        type='button'
+        text={<><SaveAltIcon/>Export</>}
+        loading={exportLoading}
+        onClick={()=>handleExport(table.getPreSelectedRowModel().rows)}
+        />
+      </Tooltip>
     )
+
   });
 
   return <div></div>;
