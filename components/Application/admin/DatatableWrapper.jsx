@@ -9,7 +9,7 @@ const DatatableWrapper = ({
    queryKey,
   fetchUrl,
   columnsConfig,
-  initialPlagSize = 10,
+  initialPageSize = 10,
   exportEndPoint,
   deleteEndPoint,
   deleteType,
@@ -30,7 +30,7 @@ const DatatableWrapper = ({
       queryKey={queryKey}
       fetchUrl={  fetchUrl}
       columnsConfig={  columnsConfig}
-      initialPlagSize ={  initialPlagSize }
+      initialPageSize={initialPageSize}
       exportEndPoint={  exportEndPoint}
       deleteEndPoint={  deleteEndPoint}
       deleteType={  deleteType}

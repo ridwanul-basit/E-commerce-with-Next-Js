@@ -27,8 +27,8 @@ const ShowCategory = () => {
 
   const action = useCallback((row,deleteType,handleDelete)=>{
      let actionMenu = []
-     action.push( <EditAction key='edit' href={ADMIN_CATEGORY_EDIT(row.original._id)} /> )
-     action.push( <DeleteAction key='delete' handleDelete={handleDelete} row={row} deleteType={deleteType} /> )
+     actionMenu.push( <EditAction key='edit' href={ADMIN_CATEGORY_EDIT(row.original._id)} /> )
+     actionMenu.push( <DeleteAction key='delete' handleDelete={handleDelete} row={row} deleteType={deleteType} /> )
      return actionMenu
   })
   return (
@@ -38,22 +38,25 @@ const ShowCategory = () => {
         <CardHeader className="pt-3 py-2 px-3 border-b [.border-b]:py-2 ">
          <div className='flex justify-between items-center'>
           <h4 className='text-xl font-semibold'>Show Category</h4>
-         <Button >
-          <FiPlus/>
-          <Link href={ADMIN_CATEGORY_ADD}>New Cattegory</Link>
-         </Button>
+         <Link href={ADMIN_CATEGORY_ADD}>
+  <Button className="flex items-center gap-2">
+    <FiPlus />
+    New Category
+  </Button>
+</Link>
+
          </div>
         </CardHeader>
         <CardContent className='pb-5'>
          <DatatableWrapper
          queryKey = "category-data"
          fetchUrl = '/api/category'
-         intitialPageSize={10}
+         initialPageSize={10}
          columnsConfig={columns}
          exportEndPoint={'/api/category/export'}
          deleteEndPoint='/api/category/delete'
          deleteType="SD"
-         trashView={`${ADMIN_TRASH}?.trashof=category`}
+         trashView={`${ADMIN_TRASH}?trashof=category`}
          createAction= {action}
 
          />

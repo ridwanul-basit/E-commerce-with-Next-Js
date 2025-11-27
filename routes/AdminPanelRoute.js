@@ -13,4 +13,4 @@ export const ADMIN_CATEGORY_EDIT = (id)=> id?  `/admin/category/edit/${id}` : ''
 
 // Trash route
 
-export const ADMIN_TRASH = '/admin/trash'
+export const ADMIN_TRASH = '/admin/category/trash'

@@ -17,7 +17,7 @@ const Datatable = ({
   queryKey,
   fetchUrl,
   columnsConfig,
-  initialPlagSize = 10,
+  initialPageSize = 10,
   exportEndPoint,
   deleteEndPoint,
   deleteType,
@@ -29,7 +29,7 @@ const Datatable = ({
   const [sorting, setSorting] = useState([""]);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: initialPlagSize,
+    pageSize: initialPageSize,
   });
   const [rowSelection, setRowSelection] = useState({});
 
@@ -54,7 +54,7 @@ const Datatable = ({
   const handleExport =async (selectedRows)=>{
     setExportLoading(true)
     try {
-      const csvCofig = mkConfig({
+      const csvConfig = mkConfig({
         fieldSeparator:',',
         decimalSeparator:'.',
         useKeysAsHeaders: true,
@@ -74,10 +74,10 @@ const Datatable = ({
           throw new Error(response.message)
         }
         const rowData = response.data
-        csv = generateCsv(csvCofig)(rowData)
+        csv = generateCsv(csvConfig)(rowData)
       }
 
-      download(csvCofig)(csv)
+      download(csvConfig)(csv)
     } catch (error) {
       showToast('error',error.message)
     }finally{
@@ -102,6 +102,7 @@ const Datatable = ({
       url.searchParams.set("filters", JSON.stringify(columnFilters ?? []));
       url.searchParams.set("globalFilter", globalFilter ?? "");
       url.searchParams.set("sorting", JSON.stringify(sorting ?? []));
+      url.searchParams.set("deleteType", deleteType);
 
       const { data: response } = await axios.get(url.href);
       return response;
@@ -136,7 +137,7 @@ const Datatable = ({
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
-    rowCount: data?.mata?.total.totalRowcount ?? 0,
+    rowCount: meta?.totalRowCount ?? 0,
     onRowSelectionChange: setRowSelection,
     state: {
       columnFilters,
@@ -204,7 +205,7 @@ const Datatable = ({
       <Tooltip>
         <ButtonLoading 
         type='button'
-        text={<><SaveAltIcon/>Export</>}
+        text={<><SaveAltIcon fontSize="30" className="cursor-pointer"/>Export</>}
         loading={exportLoading}
         onClick={()=>handleExport(table.getPreSelectedRowModel().rows)}
         />
