@@ -1,10 +1,15 @@
+'use client'
 import BreadCrumb from '@/components/Application/admin/BreadCrumb';
 import DatatableWrapper from '@/components/Application/admin/DatatableWrapper';
+import DeleteAction from '@/components/Application/admin/DeleteAction';
+import EditAction from '@/components/Application/admin/EditAction';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { ADMIN_CATEGORY_ADD, ADMIN_CATEGORY_SHOW, ADMIN_DASHBOARD, ADMIN_TRASH } from '@/routes/AdminPanelRoute';
+import { DT_CATEGORY_COLUMN } from '@/lib/column';
+import { columnConfig } from '@/lib/helperFunction';
+import { ADMIN_CATEGORY_ADD, ADMIN_CATEGORY_EDIT, ADMIN_CATEGORY_SHOW, ADMIN_DASHBOARD, ADMIN_TRASH } from '@/routes/AdminPanelRoute';
 import Link from 'next/link';
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi';
 
 
@@ -15,6 +20,17 @@ const breadcrumbData = [
 ];
 
 const ShowCategory = () => {
+
+  const columns = useMemo(()=>{
+    return columnConfig(DT_CATEGORY_COLUMN)
+  })
+
+  const action = useCallback((row,deleteType,handleDelete)=>{
+     let actionMenu = []
+     action.push( <EditAction key='edit' href={ADMIN_CATEGORY_EDIT(row.original._id)} /> )
+     action.push( <DeleteAction key='delete' handleDelete={handleDelete} row={row} deleteType={deleteType} /> )
+     return actionMenu
+  })
   return (
     <div>
       <BreadCrumb breadcrumbData={breadcrumbData}  />
@@ -33,13 +49,13 @@ const ShowCategory = () => {
          queryKey = "category-data"
          fetchUrl = '/api/category'
          intitialPageSize={10}
-         columnsConfig={}
+         columnsConfig={columns}
          exportEndPoint={'/api/category/export'}
          deleteEndPoint='/api/category/delete'
          deleteType="SD"
          trashView={`${ADMIN_TRASH}?.trashof=category`}
          createAction= {action}
-         
+
          />
         </CardContent>
       </Card> 
