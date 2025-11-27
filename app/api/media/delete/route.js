@@ -1,3 +1,4 @@
+import { isAuthenticated } from "@/lib/authentication";
 import cloudinary from "@/lib/cloudinary";
 import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
@@ -6,10 +7,10 @@ import mongoose from "mongoose";
 
 export async function PUT(request) {
   try {
-    // const auth = await isAuthenticated('admin')
-    // if (!auth.isAuth){
-    //     return response(false,403,'Unauthorized')
-    // }
+    const auth = await isAuthenticated('admin')
+    if (!auth.isAuth){
+        return response(false,403,'Unauthorized')
+    }
     await connectDB();
     const payload = await request.json();
     const ids = payload.ids || [];
@@ -59,10 +60,10 @@ export async function DELETE(request) {
   session.startTransaction();
 
   try {
-    // const auth = await isAuthenticated('admin')
-    // if (!auth.isAuth){
-    //     return response(false,403,'Unauthorized')
-    // }
+    const auth = await isAuthenticated('admin')
+    if (!auth.isAuth){
+        return response(false,403,'Unauthorized')
+    }
     await connectDB();
     const payload = await request.json();
     const ids = payload.ids || [];

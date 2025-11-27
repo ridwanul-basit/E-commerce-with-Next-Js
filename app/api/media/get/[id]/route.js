@@ -1,3 +1,4 @@
+import { isAuthenticated } from "@/lib/authentication";
 import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
 import MediaModel from "@/models/Media.model";
@@ -5,10 +6,10 @@ import { isValidObjectId } from "mongoose";
 
 export async function GET(request, { params }) {
   try {
-    //     const auth = await isAuthenticated('admin')
-    // if (!auth.isAuth){
-    //     return response(false,403,'Unauthorized')
-    // }
+        const auth = await isAuthenticated('admin')
+    if (!auth.isAuth){
+        return response(false,403,'Unauthorized')
+    }
     await connectDB();
 
     const getParams = await params;

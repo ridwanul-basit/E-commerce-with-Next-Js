@@ -1,3 +1,4 @@
+import { isAuthenticated } from "@/lib/authentication";
 import { connectDB } from "@/lib/db";
 import { catchError } from "@/lib/helperFunction";
 import CategoryModel from "@/models/Category.model";
@@ -7,10 +8,10 @@ export async function GET(request) {
    
     try {
 
-        // const auth = await isAuthenticated('admin')
-    // if (!auth.isAuth){
-    //     return response(false,403,'Unauthorized')
-    // }
+        const auth = await isAuthenticated('admin')
+    if (!auth.isAuth){
+        return response(false,403,'Unauthorized')
+    }
       
      await connectDB()
      const searchParams = request.nextUrl.searchParams
