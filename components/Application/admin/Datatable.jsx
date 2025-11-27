@@ -1,7 +1,7 @@
 import { IconButton, Tooltip } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { MRT_ShowHideColumnsButton, MRT_ToggleDensePaddingButton, MRT_ToggleFullScreenButton, MRT_ToggleGlobalFilterButton, useMaterialReactTable } from "material-react-table";
+import { MaterialReactTable, MRT_ShowHideColumnsButton, MRT_ToggleDensePaddingButton, MRT_ToggleFullScreenButton, MRT_ToggleGlobalFilterButton, useMaterialReactTable } from "material-react-table";
 import Link from "next/link";
 import React, { useState } from "react";
 import RecyclingIcon from '@mui/icons-material/Recycling';
@@ -11,6 +11,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import useDeleteMutation from "@/hooks/useDeleteMutation";
 import { ButtonLoading } from "../ButtonLoading";
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import { showToast } from "@/lib/showtoast";
+import { download, generateCsv, mkConfig } from "export-to-csv";
 const Datatable = ({
   queryKey,
   url,
@@ -32,7 +34,7 @@ const Datatable = ({
   const [rowSelection, setRowSelection] = useState({});
 
   const [exportLoading,setExportLoading] = useState(false)
-  // Data fetching
+ //Delete
    const deleteMutation = useDeleteMutation(queryKey,deleteEndPoint)
     const handleDelete = (ids, deleteType) => {
     let c = true;
@@ -47,6 +49,42 @@ const Datatable = ({
     }
     
   };
+
+  // export 
+  const handleExport =async (selectedRows)=>{
+    setExportLoading(true)
+    try {
+      const csvCofig = mkConfig({
+        fieldSeparator:',',
+        decimalSeparator:'.',
+        useKeysAsHeaders: true,
+        filename: 'csv-data'
+
+      })
+
+      let csv 
+
+      if (Object.keys(rowSelection).length>0){
+        const rowData = selectedRows.map((row)=> row.original)
+        csv = generateCsv(csvConfig)(rowData)
+      }else{
+        //export all data
+        const {data:response} = await axios.get(exportEndPoint)
+        if(!response.success){
+          throw new Error(response.message)
+        }
+        const rowData = response.data
+        csv = generateCsv(csvCofig)(rowData)
+      }
+
+      download(csvCofig)(csv)
+    } catch (error) {
+      showToast('error',error.message)
+    }finally{
+       setExportLoading(false)
+    }
+
+  }
   const {
     data: { data = [], meta } = {},
     isError,
@@ -175,7 +213,7 @@ const Datatable = ({
 
   });
 
-  return <div></div>;
+  return <MaterialReactTable table={table} />;
 };
 
 export default Datatable;
