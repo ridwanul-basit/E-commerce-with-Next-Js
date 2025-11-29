@@ -48,7 +48,7 @@ const AddProduct = () => {
 
 //   mdia mdoal states
 const [open,setOpen] = useState(false)
-const [selectMedia,setselectMedia] = useState([])
+const [selectedMedia,setSelectedMedia] = useState([])
 
  useEffect(() => {
   if (getCategory && getCategory.success) {
@@ -243,8 +243,8 @@ const [selectMedia,setselectMedia] = useState([])
                      <MediaModal 
                      open={open}
                      setOpen={setOpen}
-                     selectMedia={selectMedia}
-                     setselectMedia={setselectMedia}
+                     selectedMedia={selectedMedia}
+                     setSelectedMedia={setSelectedMedia}
                      isMultiple={true}
                      />
                      <div onClick={()=>setOpen(true)} className="bg-gray-50 dark:bg-card border w-[200px] mx-auto p-5 cursor-pointer">

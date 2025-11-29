@@ -5,10 +5,11 @@ import axios from 'axios'
 import Image from 'next/image'
 import React from 'react'
 import loading from '@/public/assets/images/loading.svg'
-const MediaModal = ({open,setOpen,selecetMedia,setSelectMedia,isMultiple}) => {
+import ModalMediaBlock from './ModalMediaBlock'
+const MediaModal = ({open,setOpen,selectedMedia,setSelectedMedia,isMultiple}) => {
 
     const fetchMedia = async (page)=>{
-        const {data:response} = await axios.get(`/api/media?page=${page} && limit=18&&deleteType=SD`)
+        const {data:response} = await axios.get(`/api/media?page=${page}&limit=18&&deleteType=SD`)
         return response
     }
     const {isPending,isError,error,data,isFetching,fetchNextPage,hasNextPage} = useInfiniteQuery({
@@ -22,15 +23,16 @@ const MediaModal = ({open,setOpen,selecetMedia,setSelectMedia,isMultiple}) => {
         }
     })
 
-    const handleClear = ({
-
-    })
-    const handleClose = ({
-
-    })
-    const handleSelect = ({
-
-    })
+    const handleClear = ()=> {
+            setSelectedMedia([]);
+    }
+    const handleClose = ()=> {
+        // setSelectedMedia()
+        setOpen(false);
+    }
+    const handleSelect = ()=> {
+        setOpen(false);
+    }
   return (
     <Dialog 
     open={open}
@@ -60,7 +62,13 @@ const MediaModal = ({open,setOpen,selecetMedia,setSelectMedia,isMultiple}) => {
             {data?.pages?.map((page, index) => (
                   <React.Fragment key={index}>
                     {page?.mediaData?.map((media) => (
-                      <span key={media._id}> {media._id}</span>
+                     <ModalMediaBlock 
+                     key={media._id}
+                     media = {media}
+                     selectedMedia={selectedMedia}
+                     setSelectedMedia={setSelectedMedia}
+                     isMultiple={isMultiple}
+                     />
                     ))}
                   </React.Fragment>
                 ))}
@@ -71,15 +79,15 @@ const MediaModal = ({open,setOpen,selecetMedia,setSelectMedia,isMultiple}) => {
 
         <div className='h-10 pt-3 border-t flex justify-between'>
             <div>
-                <Button type='button' variant='destructive' onclick= {handleClear}>
+                <Button type='button' variant='destructive' onClick= {handleClear}>
                     Clear All
                 </Button>
             </div>
             <div className='flex gap-5 '>
-                <Button type='button' variant='secondary' onclick= {handleClose}>
+                <Button type='button' variant='secondary' onClick= {handleClose}>
                     Close
                 </Button>
-                <Button type='button'  onclick= {handleSelect}>
+                <Button type='button'  onCick= {handleSelect}>
                     Select
                 </Button>
             </div>
