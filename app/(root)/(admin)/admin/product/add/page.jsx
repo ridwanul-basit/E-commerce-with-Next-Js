@@ -41,7 +41,12 @@ const formSchema = zschema.pick({
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const{data:getCategory} = useFetch('/api/category?deleteType=SD&&size=10000')
+  const [categoryOption,getCtegoryOption]= useState([])
+ useEffect(()=>{
+   if (getCategory && getCategory.success){
 
+   }
+ }),[getCategory]
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
