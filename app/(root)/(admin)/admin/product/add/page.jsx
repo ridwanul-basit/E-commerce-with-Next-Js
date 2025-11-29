@@ -261,10 +261,9 @@ const AddProduct = () => {
               </div>
               <div className="md:col-span-2 border boder-dashed rounded p-5 text-center ">
                 {/* Show Selected Media */}
-                {selectedMedia.length > 0 && (
-                  <div className=" mb-4">
+                
                     {selectedMedia.length > 0 && (
-                      <div className="flex justify-center gap-2   mb-4 ">
+                      <div className="flex justify-center items-center flex-wrap gap-2  mb-3 ">
                         {selectedMedia.map((media) => (
                           <div key={media._id} className="border p-1 rounded">
                             {media.secure_url || media.path ? (
@@ -289,8 +288,7 @@ const AddProduct = () => {
                         ))}
                       </div>
                     )}
-                  </div>
-                )}
+                  
                 <MediaModal
                   open={open}
                   setOpen={setOpen}
