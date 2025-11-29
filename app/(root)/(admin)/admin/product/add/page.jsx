@@ -20,6 +20,7 @@ import slugify from "slugify";
 import { showToast } from "@/lib/showtoast";
 import axios from "axios";
 import useFetch from "@/hooks/useFetch";
+import Select from "@/components/Application/Select";
 
 const breadcrumbData = [
   { href: ADMIN_DASHBOARD, label: "Home" },
@@ -41,12 +42,18 @@ const formSchema = zschema.pick({
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const{data:getCategory} = useFetch('/api/category?deleteType=SD&&size=10000')
-  const [categoryOption,getCtegoryOption]= useState([])
- useEffect(()=>{
-   if (getCategory && getCategory.success){
+  const [categoryOption,setCategoryOption]= useState([])
+ useEffect(() => {
+  if (getCategory && getCategory.success) {
+    const data = getCategory.data;
+    const options = data.map((cat) => ({
+      label: cat.name,
+      value: cat._id
+    }));
+    setCategoryOption(options);
+  }
+}, [getCategory]);
 
-   }
- }),[getCategory]
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -130,6 +137,26 @@ const AddProduct = () => {
                           type="text"
                           placeholder="Enter slug"
                           {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="">
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <FormLabel>Category <span className="text-red-500">*</span></FormLabel>
+                      <FormControl>
+                        <Select 
+                        options={categoryOption}
+                        selected={field.value}
+                        setSelected={field.onChange}
+                        isMulti={false}
                         />
                       </FormControl>
                       <FormMessage />
