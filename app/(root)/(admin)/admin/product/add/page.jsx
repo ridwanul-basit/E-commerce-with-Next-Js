@@ -23,6 +23,7 @@ import useFetch from "@/hooks/useFetch";
 import Select from "@/components/Application/Select";
 import Editor from "@/components/Application/admin/Editor";
 import MediaModal from "@/components/Application/admin/MediaModal";
+import Image from "next/image";
 
 const breadcrumbData = [
   { href: ADMIN_DASHBOARD, label: "Home" },
@@ -43,24 +44,25 @@ const formSchema = zschema.pick({
 
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
-  const{data:getCategory} = useFetch('/api/category?deleteType=SD&&size=10000')
-  const [categoryOption,setCategoryOption]= useState([])
+  const { data: getCategory } = useFetch(
+    "/api/category?deleteType=SD&&size=10000"
+  );
+  const [categoryOption, setCategoryOption] = useState([]);
 
-//   mdia mdoal states
-const [open,setOpen] = useState(false)
-const [selectedMedia,setSelectedMedia] = useState([])
+  //   mdia mdoal states
+  const [open, setOpen] = useState(false);
+  const [selectedMedia, setSelectedMedia] = useState([]);
 
- useEffect(() => {
-  if (getCategory && getCategory.success) {
-    const data = getCategory.data;
-    const options = data.map((cat) => ({
-      label: cat.name,
-      value: cat._id
-    }));
-    setCategoryOption(options);
-  }
-}, [getCategory]);
-
+  useEffect(() => {
+    if (getCategory && getCategory.success) {
+      const data = getCategory.data;
+      const options = data.map((cat) => ({
+        label: cat.name,
+        value: cat._id,
+      }));
+      setCategoryOption(options);
+    }
+  }, [getCategory]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -76,10 +78,10 @@ const [selectedMedia,setSelectedMedia] = useState([])
     },
   });
 
-  const editor = (event,editor)=> {
-   const data = editor.getData ()
-   form.setValue('description',data)
-  }
+  const editor = (event, editor) => {
+    const data = editor.getData();
+    form.setValue("description", data);
+  };
 
   const onSubmit = async (values) => {
     try {
@@ -118,14 +120,19 @@ const [selectedMedia,setSelectedMedia] = useState([])
         </CardHeader>
         <CardContent className="pb-5">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid md:grid-cols-2 gap-5">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="grid md:grid-cols-2 gap-5"
+            >
               <div className="">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem className="">
-                      <FormLabel>Name <span className="text-red-500">*</span> </FormLabel>
+                      <FormLabel>
+                        Name <span className="text-red-500">*</span>{" "}
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="text"
@@ -144,7 +151,9 @@ const [selectedMedia,setSelectedMedia] = useState([])
                   name="slug"
                   render={({ field }) => (
                     <FormItem className="">
-                      <FormLabel>Slug <span className="text-red-500">*</span></FormLabel>
+                      <FormLabel>
+                        Slug <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="text"
@@ -163,13 +172,15 @@ const [selectedMedia,setSelectedMedia] = useState([])
                   name="category"
                   render={({ field }) => (
                     <FormItem className="">
-                      <FormLabel>Category <span className="text-red-500">*</span></FormLabel>
+                      <FormLabel>
+                        Category <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <Select 
-                        options={categoryOption}
-                        selected={field.value}
-                        setSelected={field.onChange}
-                        isMulti={false}
+                        <Select
+                          options={categoryOption}
+                          selected={field.value}
+                          setSelected={field.onChange}
+                          isMulti={false}
                         />
                       </FormControl>
                       <FormMessage />
@@ -183,7 +194,9 @@ const [selectedMedia,setSelectedMedia] = useState([])
                   name="mrp"
                   render={({ field }) => (
                     <FormItem className="">
-                      <FormLabel>MRP <span className="text-red-500">*</span></FormLabel>
+                      <FormLabel>
+                        MRP <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -202,7 +215,9 @@ const [selectedMedia,setSelectedMedia] = useState([])
                   name="sellingPrice"
                   render={({ field }) => (
                     <FormItem className="">
-                      <FormLabel>Selling Price <span className="text-red-500">*</span></FormLabel>
+                      <FormLabel>
+                        Selling Price <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -221,7 +236,10 @@ const [selectedMedia,setSelectedMedia] = useState([])
                   name="discountPercentage"
                   render={({ field }) => (
                     <FormItem className="">
-                      <FormLabel>Discount Percentage <span className="text-red-500">*</span></FormLabel>
+                      <FormLabel>
+                        Discount Percentage{" "}
+                        <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -235,21 +253,57 @@ const [selectedMedia,setSelectedMedia] = useState([])
                 />
               </div>
               <div className="mb-5 md:col-span-2">
-                   <FormLabel className='mb-2'>Description <span className="text-red-500">*</span></FormLabel>
-                        <Editor onChange={editor}  />
-                      <FormMessage />
+                <FormLabel className="mb-2">
+                  Description <span className="text-red-500">*</span>
+                </FormLabel>
+                <Editor onChange={editor} />
+                <FormMessage />
               </div>
               <div className="md:col-span-2 border boder-dashed rounded p-5 text-center ">
-                     <MediaModal 
-                     open={open}
-                     setOpen={setOpen}
-                     selectedMedia={selectedMedia}
-                     setSelectedMedia={setSelectedMedia}
-                     isMultiple={true}
-                     />
-                     <div onClick={()=>setOpen(true)} className="bg-gray-50 dark:bg-card border w-[200px] mx-auto p-5 cursor-pointer">
-                        <span className="font-semibold">Select Media </span>
-                     </div>
+                {/* Show Selected Media */}
+                {selectedMedia.length > 0 && (
+                  <div className=" mb-4">
+                    {selectedMedia.length > 0 && (
+                      <div className="flex justify-center gap-2   mb-4 ">
+                        {selectedMedia.map((media) => (
+                          <div key={media._id} className="border p-1 rounded">
+                            {media.secure_url || media.path ? (
+                              <Image
+                                src={
+                                  media.secure_url ||
+                                  media.url ||
+                                  media.thumbnail_url ||
+                                  media.path
+                                }
+                                alt={media.name || "media"}
+                                width={80}
+                                height={80}
+                                className="h-20 w-20 object-cover rounded"
+                              />
+                            ) : (
+                              <div className="h-20 w-20 bg-gray-200 flex items-center justify-center text-sm text-gray-500 rounded">
+                                No Image
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+                <MediaModal
+                  open={open}
+                  setOpen={setOpen}
+                  selectedMedia={selectedMedia}
+                  setSelectedMedia={setSelectedMedia}
+                  isMultiple={true}
+                />
+                <div
+                  onClick={() => setOpen(true)}
+                  className="bg-gray-50 dark:bg-card border w-[200px] mx-auto p-5 cursor-pointer"
+                >
+                  <span className="font-semibold">Select Media </span>
+                </div>
               </div>
               <div className="mb-3 mt-5">
                 <ButtonLoading

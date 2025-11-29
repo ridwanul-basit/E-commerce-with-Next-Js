@@ -4,27 +4,26 @@ import React from 'react'
 
 const ModalMediaBlock = ({media,selectedMedia,setSelectedMedia,isMultiple}) => {
      
-    const handleCheck = ()=>{
-        let newSelectedMedia = []
-        const isSelected = selectedMedia.find(m=> m._id === media._id) ? true : false
-        if(isMultiple){
-            if(isSelected){
-                newSelectedMedia = selectedMedia.filter(m=> m._id == media._id)
+   const handleCheck = () => {
+  const isSelected = selectedMedia.some(m => m._id === media._id);
+  let newSelectedMedia = [];
 
-            }else{
-                 newSelectedMedia = [...selectedMedia,{
-                    _id : media._id,
-                    url : media.secure_url
-                 }]
-
-            }
-             setSelectedMedia( newSelectedMedia )
-
-        }else{
-            setSelectedMedia([{_id:media._id,url : media.secure_url}])
-
-        }
+  if (isMultiple) {
+    if (isSelected) {
+      // remove only this one
+      newSelectedMedia = selectedMedia.filter(m => m._id !== media._id);
+    } else {
+      // add new one (store full media object!)
+      newSelectedMedia = [...selectedMedia, media];
     }
+    setSelectedMedia(newSelectedMedia);
+  } else {
+    // single mode: just replace
+    setSelectedMedia([media]);
+  }
+};
+
+
  
     return (
     <label htmlFor={media._id} className='border border-gray-200 dark:border-gray-800 relative group rounded overflow-hidden' >
