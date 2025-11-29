@@ -21,6 +21,7 @@ import { showToast } from "@/lib/showtoast";
 import axios from "axios";
 import useFetch from "@/hooks/useFetch";
 import Select from "@/components/Application/Select";
+import Editor from "@/components/Application/admin/Editor";
 
 const breadcrumbData = [
   { href: ADMIN_DASHBOARD, label: "Home" },
@@ -54,6 +55,7 @@ const AddProduct = () => {
   }
 }, [getCategory]);
 
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -67,6 +69,11 @@ const AddProduct = () => {
       description: "",
     },
   });
+
+  const editor = (event,editor)=> {
+   const data = editor.getData ()
+   form.setValue('description',data)
+  }
 
   const onSubmit = async (values) => {
     try {
@@ -220,6 +227,11 @@ const AddProduct = () => {
                     </FormItem>
                   )}
                 />
+              </div>
+              <div className="mb-5 md:col-span-2">
+                   <FormLabel className='mb-2'>Description <span className="text-red-500">*</span></FormLabel>
+                        <Editor onChange={editor}  />
+                      <FormMessage />
               </div>
               <div className="mb-3">
                 <ButtonLoading
