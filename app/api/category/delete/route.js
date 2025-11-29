@@ -6,10 +6,10 @@ import mongoose from "mongoose";
 
 export async function PUT(request) {
   try {
-    // const auth = await isAuthenticated('admin')
-    // if (!auth.isAuth){
-    //     return response(false,403,'Unauthorized')
-    // }
+    const auth = await isAuthenticated('admin',request)
+    if (!auth.isAuth){
+        return response(false,403,'Unauthorized')
+    }
     await connectDB();
     const payload = await request.json();
     const ids = payload.ids || [];
@@ -57,7 +57,7 @@ export async function PUT(request) {
 export async function DELETE(request) {
 
   try {
-    const auth = await isAuthenticated('admin')
+   const auth = await isAuthenticated('admin',request)
     if (!auth.isAuth){
         return response(false,403,'Unauthorized')
     }

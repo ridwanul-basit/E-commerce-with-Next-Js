@@ -7,7 +7,7 @@ import { isValidObjectId } from "mongoose";
 
 export async function PUT(request) {
   try {
-        const auth = await isAuthenticated('admin')
+        const auth = await isAuthenticated('admin',request)
     if (!auth.isAuth){
         return response(false,403,'Unauthorized')
     }

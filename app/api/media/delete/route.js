@@ -60,7 +60,7 @@ export async function DELETE(request) {
   session.startTransaction();
 
   try {
-    const auth = await isAuthenticated('admin')
+    const auth = await isAuthenticated('admin',request)
     if (!auth.isAuth){
         return response(false,403,'Unauthorized')
     }
