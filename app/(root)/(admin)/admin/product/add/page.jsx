@@ -22,6 +22,7 @@ import axios from "axios";
 import useFetch from "@/hooks/useFetch";
 import Select from "@/components/Application/Select";
 import Editor from "@/components/Application/admin/Editor";
+import MediaModal from "@/components/Application/admin/MediaModal";
 
 const breadcrumbData = [
   { href: ADMIN_DASHBOARD, label: "Home" },
@@ -44,6 +45,11 @@ const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const{data:getCategory} = useFetch('/api/category?deleteType=SD&&size=10000')
   const [categoryOption,setCategoryOption]= useState([])
+
+//   mdia mdoal states
+const [open,setOpen] = useState(false)
+const [selectMedia,setselectMedia] = useState([])
+
  useEffect(() => {
   if (getCategory && getCategory.success) {
     const data = getCategory.data;
@@ -233,7 +239,19 @@ const AddProduct = () => {
                         <Editor onChange={editor}  />
                       <FormMessage />
               </div>
-              <div className="mb-3">
+              <div className="md:col-span-2 border boder-dashed rounded p-5 text-center ">
+                     <MediaModal 
+                     open={open}
+                     setOpen={setOpen}
+                     selectMedia={selectMedia}
+                     setselectMedia={setselectMedia}
+                     isMultiple={true}
+                     />
+                     <div onClick={()=>setOpen(true)} className="bg-gray-50 dark:bg-card border w-[200px] mx-auto p-5 cursor-pointer">
+                        <span className="font-semibold">Select Media </span>
+                     </div>
+              </div>
+              <div className="mb-3 mt-5">
                 <ButtonLoading
                   loading={loading}
                   type="submit"
