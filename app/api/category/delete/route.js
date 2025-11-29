@@ -2,7 +2,7 @@ import { isAuthenticated } from "@/lib/authentication";
 import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
 import CategoryModel from "@/models/Category.model";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
 export async function PUT(request) {
   try {
