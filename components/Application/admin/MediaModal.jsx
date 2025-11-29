@@ -1,8 +1,26 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query'
+import axios from 'axios'
+import Image from 'next/image'
 import React from 'react'
-
+import loading from '@/public/assets/images/loading.svg'
 const MediaModal = ({open,setOpen,selecetMedia,setSelectMedia,isMultiple}) => {
+
+    const fetchMedia = async (page)=>{
+        const {data:response} = await axios.get(`/api/media?page=${page} && limit=18&&deleteType=SD`)
+        return response
+    }
+    const {isPending,isError,error,data,isFetching,fetchNextPage,hasNextPage} = useInfiniteQuery({
+        queryKey: ['MediaModal'],
+        queryFn : async ({pageParam})=> await fetchMedia(pageParam),
+        placeholderData: keepPreviousData,
+        initialPageParam: 0,
+        getNextPageParam: (lastPage,allPages)=>{
+            const nextPage = allPages.length
+            return lastPage.hasMore? nextPage : undefined
+        }
+    })
 
     const handleClear = ({
 
@@ -22,12 +40,33 @@ const MediaModal = ({open,setOpen,selecetMedia,setSelectMedia,isMultiple}) => {
    <DialogDescription className='hidden' ></DialogDescription>
      <div className='h-[90vh] bg-white p-3 rounded shadow'>
 
-        <DialogHeader className='h-8 borber-b'>
+        <DialogHeader className='h-8 borber-b  text-black'>
             <DialogTitle>Media Selection</DialogTitle>
         </DialogHeader>
 
-        <div className=''>
-
+        <div className='h-[calc(100%-80px)] overflow-auto py-2'>
+            {isPending ? 
+            (<div className='size-full flex justify-center items-center'>
+                <Image src={loading} alt='loading' height={80} width={80} />
+            </div>)
+            :
+            isError?
+            <div className='size-full flex justify-center items-center'> 
+            <span className='text-red-500'> {error.message}</span>
+            </div>
+            :
+            <div className='grid lg:grid-cols-6 grid-cols-3 gap-2'> 
+            
+            {data?.pages?.map((page, index) => (
+                  <React.Fragment key={index}>
+                    {page?.mediaData?.map((media) => (
+                      <span key={media._id}> {media._id}</span>
+                    ))}
+                  </React.Fragment>
+                ))}
+            
+             </div>   
+        }
         </div>
 
         <div className='h-10 pt-3 border-t flex justify-between'>
