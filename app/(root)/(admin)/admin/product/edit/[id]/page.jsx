@@ -44,16 +44,15 @@ const formSchema = zschema.pick({
 
 const EditProduct = ({params}) => {
   const {id} = use(params)
+  const [editorData, setEditorData] = useState('');
   const [loading, setLoading] = useState(false);
   const { data: getCategory } = useFetch(
     "/api/category?deleteType=SD&&size=10000"
   );
+  const { data: getProduct,loading : getProductLoading } = useFetch(
+    `/api/product/get/${id}`
+  );
   const [categoryOption, setCategoryOption] = useState([]);
-
-  //   mdia mdoal states
-  const [open, setOpen] = useState(false);
-  const [selectedMedia, setSelectedMedia] = useState([]);
-
   useEffect(() => {
     if (getCategory && getCategory.success) {
       const data = getCategory.data;
@@ -62,8 +61,42 @@ const EditProduct = ({params}) => {
         value: cat._id,
       }));
       setCategoryOption(options);
+      
     }
   }, [getCategory]);
+  //   mdia mdoal states
+  const [open, setOpen] = useState(false);
+  const [selectedMedia, setSelectedMedia] = useState([]);
+
+  useEffect(() => {
+  if (getProduct && getProduct.success) {
+    const data = getProduct.data;
+    form.reset({
+      name: data.name,
+      slug: data.slug,
+      category: data.category,
+      mrp: data.mrp,
+      sellingPrice: data.sellingPrice,
+      discountPercentage: data.discountPercentage,
+      media: data.media,
+      description: data.description,
+    });
+    setEditorData(data.description || '');
+
+    // set selectedMedia for display
+    if (data.media && data.media.length > 0) {
+      const mediaList = data.media.map((m) => ({
+        _id: m._id,
+        secure_url: m.secure_url,
+        path: m.path,
+        thumbnail_url: m.thumbnail_url,
+        name: m.title || m.alt || ''
+      }));
+      setSelectedMedia(mediaList);
+    }
+  }
+}, [getProduct]);
+
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -278,7 +311,13 @@ const EditProduct = ({params}) => {
                 <FormLabel className="mb-2">
                   Description <span className="text-red-500">*</span>
                 </FormLabel>
-                <Editor onChange={editor} />
+                {!getProductLoading && 
+                <Editor
+  initialData={editorData}
+  onChange={(event, editor) => form.setValue('description', editor.getData())}
+/>
+                }
+                
                 <FormMessage />
               </div>
               <div className="md:col-span-2 border boder-dashed rounded p-5 text-center ">
@@ -329,7 +368,7 @@ const EditProduct = ({params}) => {
                 <ButtonLoading
                   loading={loading}
                   type="submit"
-                  text="Update Product"
+                  text="Save Changes"
                   className=""
                 />
               </div>
