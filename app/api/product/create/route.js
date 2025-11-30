@@ -2,7 +2,8 @@ import { isAuthenticated } from "@/lib/authentication";
 import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
 import { zschema } from "@/lib/ZodSchema";
-import CategoryModel from "@/models/Category.model";
+import ProductModel from "@/models/Product.model";
+
 
 export async function POST(request) {
   try {
@@ -15,28 +16,37 @@ export async function POST(request) {
     const payload = await request.json();
 
     const schema = zschema.pick({
-      name: true,
-      slug: true,
-    });
+  name: true,
+  slug: true,
+  category: true,
+  mrp: true,
+  sellingPrice: true,
+  discountPercentage: true,
+  media: true,
+  description: true,
+});
 
     const validate = schema.safeParse(payload);
 
     if (!validate.success) {
       return response(false, 400, "Invalid or missing field", validate.error);
     } 
-    const { name, slug } = payload;
-     const isExist = await CategoryModel.findOne({
-      $or: [{ name }, { slug }]
-    });
+    const productData = validate.data
 
-    if (isExist) {
-      return response(false, 400, "Duplicate field: name or slug already exists.");
-    }
-    const newCategory = new CategoryModel({
-        name, slug
+    
+    const newProduct = new ProductModel({
+          name:productData.name,
+          slug:productData.slug,
+          category:productData.category,
+          mrp:productData.mrp,
+          sellingPrice:productData.sellingPrice,
+          discountPercentage:productData.discountPercentage,
+          media:productData.media,
+          description: productData.description
+
     })
-    await newCategory.save()
-     return response(true, 200, "Category added successfully");
+    await newProduct.save()
+     return response(true, 200, "Product added successfully");
     
   } catch (error) {
     return catchError(error)

@@ -70,10 +70,10 @@ const AddProduct = () => {
       name: "",
       slug: "",
       category: "",
-      mrp: "",
-      sellingPrice: "",
-      discountPercentage: "",
-      media: "",
+      mrp: 0,
+      sellingPrice: 0,
+      discountPercentage: 0,
+      media: [],
       description: "",
     },
   });
@@ -86,6 +86,12 @@ const AddProduct = () => {
   const onSubmit = async (values) => {
     try {
       setLoading(true);
+      if(!selectedMedia || selectedMedia.length === 0){
+        setLoading(false); 
+        return showToast('error',"Please select media")
+      }
+      const mediaIds= selectedMedia.map(media=>media._id)
+      values.media= mediaIds
       const { data } = await axios.post("/api/product/create", values);
       if (!data.success) {
         // Backend might respond with 401 (email not verified) or 404 (invalid credentials)
@@ -110,6 +116,20 @@ const AddProduct = () => {
       form.setValue("slug", slugify(name).toLowerCase());
     }
   }, [form.watch("name")]);
+
+  // discount percentage calculation
+ useEffect(() => {
+  const mrp = Number(form.getValues("mrp")) || 0;
+  const sellingPrice = Number(form.getValues("sellingPrice")) || 0;
+
+  if (mrp > 0 && sellingPrice > 0) {
+    const discount = Math.round(((mrp - sellingPrice) / mrp) * 100);
+    form.setValue("discountPercentage", discount);
+  } else {
+    form.setValue("discountPercentage", 0);
+  }
+}, [form.watch("mrp"), form.watch("sellingPrice")]);
+
 
   return (
     <div>
@@ -243,6 +263,7 @@ const AddProduct = () => {
                       <FormControl>
                         <Input
                           type="number"
+                          readOnly
                           placeholder="Enter Discount Percentage"
                           {...field}
                         />
