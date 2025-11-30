@@ -3,7 +3,7 @@ import BreadCrumb from '@/components/Application/admin/BreadCrumb';
 import DatatableWrapper from '@/components/Application/admin/DatatableWrapper';
 import DeleteAction from '@/components/Application/admin/DeleteAction';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { DT_CATEGORY_COLUMN } from '@/lib/column';
+import { DT_CATEGORY_COLUMN, DT_PRODUCT_COLUMN } from '@/lib/column';
 import { columnConfig } from '@/lib/helperFunction';
 import { ADMIN_DASHBOARD, ADMIN_CATEGORY_SHOW, ADMIN_TRASH } from '@/routes/AdminPanelRoute';
 import { useSearchParams } from 'next/navigation';
@@ -22,7 +22,14 @@ const TRASH_CONFIG = {
     fetchUrl: '/api/category',
     exportUrl: '/api/category/export',
     deleteUrl: '/api/category/delete',
-  }
+  },
+    product: {
+      title: "Product Trash",
+      columns: DT_PRODUCT_COLUMN,
+      fetchUrl: '/api/product',
+      exportUrl: '/api/product/export',
+      deleteUrl: '/api/product/delete',
+    }
 }
 
 const Trash = () => {
