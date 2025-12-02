@@ -8,17 +8,17 @@ export async function PUT(request) {
     await connectDB();
     const payload = await request.json();
 
-    const schema = zschema.pick({
-      _id: true,
-      name: true,
-      slug: true,
-      description: true,
-      mrp: true,
-      sellingPrice: true,
-      discountPercentage: true,
-      category: true,
-      media: true,
-    });
+ const schema = zschema.pick({
+  _id:id,
+  product: true,
+  sku: true,
+  color: true,
+  size: true,
+  mrp: true,
+  sellingPrice: true,
+  discountPercentage: true,
+  media: true,
+});
 
     const validate = schema.safeParse(payload);
     if (!validate.success) {
@@ -27,13 +27,13 @@ export async function PUT(request) {
 
     const {
       _id,
-      name,
-      slug,
-      description,
+      product,
+      color,
+      size,
+      sku,
       mrp,
       sellingPrice,
       discountPercentage,
-      category,
       media,
     } = validate.data;
 
@@ -48,18 +48,18 @@ export async function PUT(request) {
     }
 
     // Update productVariant fields
-    productVariant.name = name;
-    productVariant.slug = slug;
-    productVariant.description = description;
+    productVariant.product = product;
+    productVariant.color = color;
+    productVariant.size = size;
+    productVariant.sku = sku;
     productVariant.mrp = mrp;
     productVariant.sellingPrice = sellingPrice;
     productVariant.discountPercentage = discountPercentage;
-    productVariant.category =category ; // categoryId
     productVariant.media = media; // array of media IDs
 
     await productVariant.save();
 
-    return response(true, 200, "Product updated successfully");
+    return response(true, 200, "Product Variant updated successfully");
   } catch (error) {
     return catchError(error);
   }

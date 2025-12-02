@@ -3,7 +3,7 @@ import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
 import ProductModel from "@/models/Product.model";
 import { isValidObjectId } from "mongoose";
-
+import MediaModel from "@/models/Media.model";
 export async function GET(request, { params }) {
   try {
     const auth = await isAuthenticated("admin", request);

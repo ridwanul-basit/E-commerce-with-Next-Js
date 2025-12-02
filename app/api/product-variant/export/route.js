@@ -1,7 +1,7 @@
 import { isAuthenticated } from "@/lib/authentication";
 import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
-import ProductModel from "@/models/Product.model";
+import ProductVariantModel from "@/models/ProductVariant.model";
 
 
 export async function GET(request) {
@@ -18,16 +18,16 @@ export async function GET(request) {
     };
 
     // Return all products as an array
-    const getProducts = await ProductModel.find(filter)
-      .select('-media -description') // exclude large fields
+    const getProductVariants = await ProductVariantModel.find(filter)
+      .select('-media ') // exclude large fields
       .sort({ createdAt: -1 })
       .lean();
 
-    if (!getProducts || !getProducts.length) {
+    if (!getProductVariants || !getProductVariants.length) {
       return response(false, 404, 'No products found');
     }
 
-    return response(true, 200, 'Data Found', getProducts);
+    return response(true, 200, 'Data Found', getProductVariants);
   } catch (error) {
     return catchError(error);
   }
