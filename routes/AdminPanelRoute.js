@@ -27,3 +27,10 @@ export const ADMIN_PRODUCT_EDIT = (id)=> id?  `/admin/product/edit/${id}` : ''
 export const ADMIN_PRODUCT_VARIANT_ADD = '/admin/product-variant/add'
 export const ADMIN_PRODUCT_VARIANT_SHOW = '/admin/product-variant'
 export const ADMIN_PRODUCT_VARIANT_EDIT = (id)=> id?  `/admin/product-variant/edit/${id}` : ''
+
+
+// Cupon Routes
+
+export const ADMIN_CUPON_ADD = '/admin/cupon/add'
+export const ADMIN_CUPON_SHOW = '/admin/cupon'
+export const ADMIN_CUPON_EDIT = (id)=> id?  `/admin/cupon/edit/${id}` : ''
