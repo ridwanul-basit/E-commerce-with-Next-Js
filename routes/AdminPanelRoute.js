@@ -38,3 +38,7 @@ export const ADMIN_CUPON_EDIT = (id)=> id?  `/admin/cupon/edit/${id}` : ''
 
 // customers
 export const ADMIN_CUSTOMERS_SHOW = '/admin/customers'
+
+//review 
+
+export const ADMIN_REVIEW_SHOW = '/admin/review'
