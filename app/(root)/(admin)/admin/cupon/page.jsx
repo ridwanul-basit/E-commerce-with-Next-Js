@@ -5,7 +5,8 @@ import DeleteAction from '@/components/Application/admin/DeleteAction';
 import EditAction from '@/components/Application/admin/EditAction';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { DT_PRODUCT_COLUMN } from '@/lib/column';
+import { DT_CUPON_COLUMN } from '@/lib/column';
+
 import { columnConfig } from '@/lib/helperFunction';
 import {ADMIN_CUPON_ADD, ADMIN_CUPON_EDIT, ADMIN_CUPON_SHOW, ADMIN_DASHBOARD,  ADMIN_TRASH } from '@/routes/AdminPanelRoute';
 import Link from 'next/link';
@@ -19,10 +20,10 @@ const breadcrumbData = [
 
 ];
 
-const ShowProduct = () => {
+const ShowCupon = () => {
 
   const columns = useMemo(()=>{
-    return columnConfig(DT_PRODUCT_COLUMN)
+    return columnConfig(DT_CUPON_COLUMN)
   })
 
   const action = useCallback((row,deleteType,handleDelete)=>{
@@ -49,14 +50,14 @@ const ShowProduct = () => {
         </CardHeader>
         <CardContent className='pb-5'>
          <DatatableWrapper
-         queryKey = "product-data"
-         fetchUrl = '/api/product'
+         queryKey = "cupon-data"
+         fetchUrl = '/api/cupon'
          initialPageSize={10}
          columnsConfig={columns}
-         exportEndPoint={'/api/product/export'}
-         deleteEndPoint='/api/product/delete'
+         exportEndPoint={'/api/cupon/export'}
+         deleteEndPoint='/api/cupon/delete'
          deleteType="SD"
-         trashView={`${ADMIN_TRASH}?trashof=product`}
+         trashView={`${ADMIN_TRASH}?trashof=cupon`}
          createAction= {action}
 
          />
@@ -66,4 +67,4 @@ const ShowProduct = () => {
   )
 }
 
-export default ShowProduct
+export default ShowCupon
