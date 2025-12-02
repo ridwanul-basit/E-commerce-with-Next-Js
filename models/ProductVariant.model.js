@@ -6,7 +6,7 @@ const productVariantSchema = new mongoose.Schema(
     product : {
       type:mongoose.Schema.Types.ObjectId,
       ref: "Product",
-      required:tuple,
+      required:true,
 
     },
     color: {
@@ -31,8 +31,9 @@ const productVariantSchema = new mongoose.Schema(
       required: true,
     },
     sku: {
-      type: Number,
+      type: String,
       required: true,
+      unique:true,
     },
     media:[
         {
