@@ -1,23 +1,22 @@
 import mongoose from "mongoose";
 import { lowercase } from "zod";
 
-const productSchema = new mongoose.Schema(
+const productVariantSchema = new mongoose.Schema(
   {
-    name: {
+    product : {
+      type:mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required:tuple,
+
+    },
+    color: {
       type: String,
       required: true,
     },
-    slug: {
+    size: {
       type: String,
       required: true,
-      unique:true,
-      lowercase:true,
       trim: true
-    },
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'Category',
-        required:true
     },
     mrp: {
       type: Number,
@@ -31,6 +30,10 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    sku: {
+      type: Number,
+      required: true,
+    },
     media:[
         {
         type: mongoose.Schema.Types.ObjectId,
@@ -38,10 +41,6 @@ const productSchema = new mongoose.Schema(
         required:true
         }
     ],
-    description: {
-      type: String,
-      required:true
-    },
     deletedAt: {
       type: Date,
       default: null,
@@ -51,9 +50,9 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// TTL index to auto-delete expired OTPs
-productSchema.index({ category: 1 })
+// // TTL index to auto-delete expired OTPs
+// productVariantSchema.index({ category: 1 })
 
-const ProductModel = mongoose.models.Product || mongoose.model("Product", productSchema, "products");
+const ProductVariantModel = mongoose.models.ProductVariant || mongoose.model("ProductVariant", productVariantSchema, "productvariants");
 
-export default ProductModel;
+export default ProductVariantModel;
