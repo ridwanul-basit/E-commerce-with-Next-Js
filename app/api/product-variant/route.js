@@ -31,8 +31,9 @@ export async function GET(request) {
 
     if (globalFilter) {
       matchQuery["$or"] = [
-        { name: { $regex: globalFilter, $options: "i" } },
-        { slug: { $regex: globalFilter, $options: "i" } },
+        { color: { $regex: globalFilter, $options: "i" } },
+        { size: { $regex: globalFilter, $options: "i" } },
+        { sku: { $regex: globalFilter, $options: "i" } },
         {"productData.name" : { $regex: globalFilter, $options: "i" } },
         { $expr: { $regexMatch: { input: { $toString: "$mrp" }, regex: globalFilter, options: "i" } } },
     { $expr: { $regexMatch: { input: { $toString: "$sellingPrice" }, regex: globalFilter, options: "i" } } },
