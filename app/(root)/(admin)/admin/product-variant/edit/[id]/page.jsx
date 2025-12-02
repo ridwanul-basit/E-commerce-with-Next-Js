@@ -1,11 +1,15 @@
 'use client';
-import EditProduct from './EditProduct';
 
 import { usePathname } from 'next/navigation';
+import EditProductVariant from './EditProductVariant';
 
 export default function Page() {
-  const pathname = usePathname(); // e.g., "/admin/product/edit/692c0cde6dce39e77f35f641"
-  const id = pathname.split('/').pop(); // grab last segment
+  const pathname = usePathname(); // e.g., "/admin/product-variant/edit/692e7fc17fb7b79299961ab7"
+  const id = pathname.split('/').pop(); // last segment is the ID
+
   console.log('ID from path:', id);
-  return <EditProduct id={id} />;
+
+  if (!id) return <p>No Product Variant ID found!</p>;
+
+  return <EditProductVariant id={id} />;
 }

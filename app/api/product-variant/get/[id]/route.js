@@ -1,12 +1,10 @@
-
 import { isAuthenticated } from "@/lib/authentication";
 import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
-import MediaModel from "@/models/Media.model";
 import ProductVariantModel from "@/models/ProductVariant.model";
 import { isValidObjectId } from "mongoose";
 
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
     const auth = await isAuthenticated("admin", request);
     if (!auth.isAuth) {
@@ -15,19 +13,22 @@ export async function GET(request, { params }) {
 
     await connectDB();
 
-     const resolvedParams = await params; // <-- unwrap the Promise
-    const { id } = resolvedParams;
-     console.log("Product ID:", id);
+    // 👉 params is a Promise, unwrap it (Next.js 15)
+    const resolved = await context.params;
+    const { id } = resolved;
+
+    console.log("Resolved ID:", id);
 
     if (!isValidObjectId(id)) {
-      return response(false, 404, "Invalid object id");
+      return response(false, 404, "Invalid Object ID");
     }
-    console.log("Product ID:", id);
 
-
-    const productVariant = await ProductVariantModel.findOne({ _id: id, deletedAt: null })
+    const productVariant = await ProductVariantModel.findOne({
+      _id: id,
+      deletedAt: null,
+    })
       .populate("media", "asset_id public_id path thumbnail_url secure_url alt title")
-      .populate("category", "name slug")
+      .populate("product", "name slug") 
       .lean();
 
     if (!productVariant) {
@@ -35,7 +36,8 @@ export async function GET(request, { params }) {
     }
 
     return response(true, 200, "Product Variant Found", productVariant);
+
   } catch (error) {
-    return catchError(error);
+    return catchError(error);  // ✅ now defined
   }
 }

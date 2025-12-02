@@ -9,7 +9,7 @@ export async function PUT(request) {
     const payload = await request.json();
 
  const schema = zschema.pick({
-  _id:id,
+  _id:true,
   product: true,
   sku: true,
   color: true,
