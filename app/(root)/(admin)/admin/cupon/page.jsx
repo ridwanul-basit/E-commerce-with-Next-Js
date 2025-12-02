@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { DT_PRODUCT_COLUMN } from '@/lib/column';
 import { columnConfig } from '@/lib/helperFunction';
-import {ADMIN_DASHBOARD, ADMIN_PRODUCT_ADD, ADMIN_PRODUCT_EDIT, ADMIN_PRODUCT_SHOW, ADMIN_TRASH } from '@/routes/AdminPanelRoute';
+import {ADMIN_CUPON_ADD, ADMIN_CUPON_EDIT, ADMIN_CUPON_SHOW, ADMIN_DASHBOARD,  ADMIN_TRASH } from '@/routes/AdminPanelRoute';
 import Link from 'next/link';
 import React, { useCallback, useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi';
@@ -15,7 +15,7 @@ import { FiPlus } from 'react-icons/fi';
 
 const breadcrumbData = [
   { href: ADMIN_DASHBOARD, label: "Home" },
-  { href: ADMIN_PRODUCT_SHOW, label: "Product" },
+  { href: ADMIN_CUPON_SHOW, label: "Cupon" },
 
 ];
 
@@ -27,7 +27,7 @@ const ShowProduct = () => {
 
   const action = useCallback((row,deleteType,handleDelete)=>{
      let actionMenu = []
-     actionMenu.push( <EditAction key='edit' href={ADMIN_PRODUCT_EDIT(row.original._id)} /> )
+     actionMenu.push( <EditAction key='edit' href={ADMIN_CUPON_EDIT(row.original._id)} /> )
      actionMenu.push( <DeleteAction key='delete' handleDelete={handleDelete} row={row} deleteType={deleteType} /> )
      return actionMenu
   })
@@ -37,8 +37,8 @@ const ShowProduct = () => {
        <Card className="py-0 rounded shadow-sm">
         <CardHeader className="pt-3 py-2 px-3 border-b [.border-b]:py-2 ">
          <div className='flex justify-between items-center'>
-          <h4 className='text-xl font-semibold'>Show Product</h4>
-         <Link href={ADMIN_PRODUCT_ADD}>
+          <h4 className='text-xl font-semibold'>Show Cupon</h4>
+         <Link href={ADMIN_CUPON_ADD}>
   <Button className="flex items-center gap-2">
     <FiPlus />
     New Product

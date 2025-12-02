@@ -2,7 +2,7 @@ import { isAuthenticated } from "@/lib/authentication";
 import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
 import { zschema } from "@/lib/ZodSchema";
-import ProductModel from "@/models/Product.model";
+import CuponModel from "@/models/Cupon.model";
 
 
 export async function POST(request) {
@@ -16,14 +16,10 @@ export async function POST(request) {
     const payload = await request.json();
 
     const schema = zschema.pick({
-  name: true,
-  slug: true,
-  category: true,
-  mrp: true,
-  sellingPrice: true,
-  discountPercentage: true,
-  media: true,
-  description: true,
+    code: true,
+    discountPercentage: true,
+    minimumShoppingAmount: true,
+    validity: true,
 });
 
     const validate = schema.safeParse(payload);
@@ -31,22 +27,19 @@ export async function POST(request) {
     if (!validate.success) {
       return response(false, 400, "Invalid or missing field", validate.error);
     } 
-    const productData = validate.data
+    const cuponData = validate.data
 
     
-    const newProduct = new ProductModel({
-          name:productData.name,
-          slug:productData.slug,
-          category:productData.category,
-          mrp:productData.mrp,
-          sellingPrice:productData.sellingPrice,
-          discountPercentage:productData.discountPercentage,
-          media:productData.media,
-          description: productData.description
+    const newCupon = new CuponModel({
+          code:cuponData.code,
+          discountPercentage:cuponData.discountPercentage,
+          minimumShoppingAmount:cuponData.minimumShoppingAmount,
+          validity:cuponData.validity,
+          
 
     })
-    await newProduct.save()
-     return response(true, 200, "Product added successfully");
+    await newCupon.save()
+     return response(true, 200, "Cuppon added successfully");
     
   } catch (error) {
     return catchError(error)

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const cuponSchema = new mongoose.Schema(
   {
     
-    cupon: {
+    code: {
       type: String,
       required: true,
       unique:true,
@@ -14,7 +14,7 @@ const cuponSchema = new mongoose.Schema(
       required: true,
       trim: true
     },
-    minimumShoppingAmout: {
+    minimumShoppingAmount: {
       type: Number,
       required: true,
       trim: true

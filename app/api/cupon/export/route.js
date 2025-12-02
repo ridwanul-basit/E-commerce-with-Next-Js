@@ -1,7 +1,7 @@
 import { isAuthenticated } from "@/lib/authentication";
 import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
-import ProductModel from "@/models/Product.model";
+import CuponModel from "@/models/Cupon.model";
 
 
 export async function GET(request) {
@@ -18,16 +18,15 @@ export async function GET(request) {
     };
 
     // Return all products as an array
-    const getProducts = await ProductModel.find(filter)
-      .select('-media -description') // exclude large fields
+    const getCupon = await CuponModel.find(filter)
       .sort({ createdAt: -1 })
       .lean();
 
-    if (!getProducts || !getProducts.length) {
+    if (!getCupon || !getCupon.length) {
       return response(false, 404, 'No products found');
     }
 
-    return response(true, 200, 'Data Found', getProducts);
+    return response(true, 200, 'Data Found', getCupon);
   } catch (error) {
     return catchError(error);
   }

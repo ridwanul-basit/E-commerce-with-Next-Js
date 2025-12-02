@@ -16,14 +16,9 @@ import { ButtonLoading } from "@/components/Application/ButtonLoading";
 import { zschema } from "@/lib/ZodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import slugify from "slugify";
 import { showToast } from "@/lib/showtoast";
 import axios from "axios";
-import useFetch from "@/hooks/useFetch";
-import Select from "@/components/Application/Select";
-import Editor from "@/components/Application/admin/Editor";
-import MediaModal from "@/components/Application/admin/MediaModal";
-import Image from "next/image";
+
 
 const breadcrumbData = [
   { href: ADMIN_DASHBOARD, label: "Home" },
@@ -49,6 +44,7 @@ const AddCupon = () => {
      code: "",
      discountPercentage: "",
      minimumShoppingAmount: "",
+     validity:""
     },
   });
 
@@ -138,16 +134,16 @@ const AddCupon = () => {
               <div className="">
                 <FormField
                   control={form.control}
-                  name="discountPercentage"
+                  name="minimumShoppingAmount"
                   render={({ field }) => (
                     <FormItem className="">
                       <FormLabel>
-                        Discount Percentage <span className="text-red-500">*</span>
+                       Minimum Shopping Amount  <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input
                           type="number"
-                          placeholder="Enter discount percentage"
+                          placeholder="Enter minimum shopping amont"
                           {...field}
                         />
                       </FormControl>
@@ -159,7 +155,7 @@ const AddCupon = () => {
               <div className="">
                 <FormField
                   control={form.control}
-                  name="sellingPrice"
+                  name="validity"
                   render={({ field }) => (
                     <FormItem className="">
                       <FormLabel>

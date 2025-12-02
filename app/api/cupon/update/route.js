@@ -1,7 +1,7 @@
 import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
 import { zschema } from "@/lib/ZodSchema";
-import ProductModel from "@/models/Product.model";
+import CuponModel from "@/models/Cupon.model";
 
 export async function PUT(request) {
   try {
@@ -10,14 +10,10 @@ export async function PUT(request) {
 
     const schema = zschema.pick({
       _id: true,
-      name: true,
-      slug: true,
-      description: true,
-      mrp: true,
-      sellingPrice: true,
-      discountPercentage: true,
-      category: true,
-      media: true,
+     code: true,
+     discountPercentage: true,
+     minimumShoppingAmount: true,
+     validity: true,
     });
 
     const validate = schema.safeParse(payload);
@@ -27,39 +23,33 @@ export async function PUT(request) {
 
     const {
       _id,
-      name,
-      slug,
-      description,
-      mrp,
-      sellingPrice,
+      code,
       discountPercentage,
-      category,
-      media,
+      minimumShoppingAmount,
+      validity,
+      
     } = validate.data;
 
-    // Find product first
-    const product = await ProductModel.findOne({
+    // Find cupon first
+    const cupon = await CuponModel.findOne({
       deletedAt: null,
       _id,
     });
 
-    if (!product) {
-      return response(false, 404, "Product not found");
+    if (!cupon) {
+      return response(false, 404, "Cupon not found");
     }
 
-    // Update product fields
-    product.name = name;
-    product.slug = slug;
-    product.description = description;
-    product.mrp = mrp;
-    product.sellingPrice = sellingPrice;
-    product.discountPercentage = discountPercentage;
-    product.category =category ; // categoryId
-    product.media = media; // array of media IDs
+    // Update cupon fields
+    cupon. code = code;
+    cupon. discountPercentage = discountPercentage;
+    cupon. minimumShoppingAmount = minimumShoppingAmount;
+    cupon. validity = validity;
+    
 
-    await product.save();
+    await cupon.save();
 
-    return response(true, 200, "Product updated successfully");
+    return response(true, 200, "Cupon updated successfully");
   } catch (error) {
     return catchError(error);
   }
