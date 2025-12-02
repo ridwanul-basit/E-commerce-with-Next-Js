@@ -1,7 +1,7 @@
 import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
 import { zschema } from "@/lib/ZodSchema";
-import ProductModel from "@/models/Product.model";
+import ProductVariantModel from "@/models/ProductVariant.model";
 
 export async function PUT(request) {
   try {
@@ -38,26 +38,26 @@ export async function PUT(request) {
     } = validate.data;
 
     // Find product first
-    const product = await ProductModel.findOne({
+    const productVariant = await ProductVariantModel.findOne({
       deletedAt: null,
       _id,
     });
 
-    if (!product) {
+    if (!productVariant) {
       return response(false, 404, "Product not found");
     }
 
-    // Update product fields
-    product.name = name;
-    product.slug = slug;
-    product.description = description;
-    product.mrp = mrp;
-    product.sellingPrice = sellingPrice;
-    product.discountPercentage = discountPercentage;
-    product.category =category ; // categoryId
-    product.media = media; // array of media IDs
+    // Update productVariant fields
+    productVariant.name = name;
+    productVariant.slug = slug;
+    productVariant.description = description;
+    productVariant.mrp = mrp;
+    productVariant.sellingPrice = sellingPrice;
+    productVariant.discountPercentage = discountPercentage;
+    productVariant.category =category ; // categoryId
+    productVariant.media = media; // array of media IDs
 
-    await product.save();
+    await productVariant.save();
 
     return response(true, 200, "Product updated successfully");
   } catch (error) {
