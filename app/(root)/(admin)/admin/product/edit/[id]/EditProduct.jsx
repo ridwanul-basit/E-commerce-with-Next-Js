@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 import React, { useEffect, useState } from 'react';
 import BreadCrumb from '@/components/Application/admin/BreadCrumb';
 import { ADMIN_DASHBOARD, ADMIN_PRODUCT_SHOW } from '@/routes/AdminPanelRoute';
@@ -34,6 +33,8 @@ const EditProduct = ({ id }) => {
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [selectedMedia, setSelectedMedia] = useState([]);
   const [openMediaModal, setOpenMediaModal] = useState(false);
+  const [initialDescription, setInitialDescription] = useState('');
+
 
   // Fetch categories
   const { data: categoryData, isLoading: loadingCategories } = useFetch(
@@ -71,6 +72,7 @@ const EditProduct = ({ id }) => {
         media: p.media || [],
       });
       setSelectedMedia(p.media || []);
+      setInitialDescription(p.description || '');
     }
   }, [productData, categoryOptions]);
 
@@ -135,7 +137,7 @@ const EditProduct = ({ id }) => {
           <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-5">
             {/* Name */}
             <div>
-              <label className="block font-medium mb-1">Name *</label>
+              <label className="block font-medium mb-1">Name <span className="text-red-500">*</span></label>
               <input
                 name="name"
                 value={product.name}
@@ -146,7 +148,7 @@ const EditProduct = ({ id }) => {
 
             {/* Slug */}
             <div>
-              <label className="block font-medium mb-1">Slug *</label>
+              <label className="block font-medium mb-1">Slug <span className="text-red-500">*</span></label>
               <input
                 name="slug"
                 value={product.slug}
@@ -157,7 +159,7 @@ const EditProduct = ({ id }) => {
 
             {/* Category */}
             <div>
-              <label className="block font-medium mb-1">Category *</label>
+              <label className="block font-medium mb-1">Category <span className="text-red-500">*</span></label>
               <Select
                 options={categoryOptions}
                 selected={product.category}
@@ -168,7 +170,7 @@ const EditProduct = ({ id }) => {
 
             {/* MRP */}
             <div>
-              <label className="block font-medium mb-1">MRP *</label>
+              <label className="block font-medium mb-1">MRP <span className="text-red-500">*</span></label>
               <input
                 type="number"
                 name="mrp"
@@ -180,7 +182,7 @@ const EditProduct = ({ id }) => {
 
             {/* Selling Price */}
             <div>
-              <label className="block font-medium mb-1">Selling Price *</label>
+              <label className="block font-medium mb-1">Selling Price <span className="text-red-500">*</span></label>
               <input
                 type="number"
                 name="sellingPrice"
@@ -198,14 +200,14 @@ const EditProduct = ({ id }) => {
                 name="discountPercentage"
                 value={product.discountPercentage}
                 readOnly
-                className="border w-full p-2 rounded bg-gray-100"
+                className="border w-full p-2 rounded "
               />
             </div>
 
             {/* Description */}
             <div className="md:col-span-2">
-              <label className="block font-medium mb-1">Description *</label>
-              <Editor initialData={product.description} onChange={handleEditorChange} />
+              <label className="block  font-medium mb-1">Description <span className="text-red-500">*</span></label>
+              <Editor key={initialDescription}  initialData={product.description} onChange={handleEditorChange} />
             </div>
 
             {/* Media */}
@@ -236,7 +238,7 @@ const EditProduct = ({ id }) => {
 
               <div
                 onClick={() => setOpenMediaModal(true)}
-                className="border w-[200px] mx-auto p-5 cursor-pointer"
+                className="border  w-[200px] mx-auto p-5 cursor-pointer"
               >
                 <span className="font-semibold">Select Media</span>
               </div>
