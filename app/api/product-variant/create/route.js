@@ -2,7 +2,7 @@ import { isAuthenticated } from "@/lib/authentication";
 import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
 import { zschema } from "@/lib/ZodSchema";
-import ProductModel from "@/models/Product.model";
+import ProductVariantModel from "@/models/ProductVariant.model";
 
 
 export async function POST(request) {
@@ -15,15 +15,15 @@ export async function POST(request) {
     await connectDB();
     const payload = await request.json();
 
-    const schema = zschema.pick({
-  name: true,
-  slug: true,
-  category: true,
+const schema = zschema.pick({
+  product: true,
+  sku: true,
+  color: true,
+  size: true,
   mrp: true,
   sellingPrice: true,
   discountPercentage: true,
   media: true,
-  description: true,
 });
 
     const validate = schema.safeParse(payload);
@@ -31,22 +31,22 @@ export async function POST(request) {
     if (!validate.success) {
       return response(false, 400, "Invalid or missing field", validate.error);
     } 
-    const productData = validate.data
+    const variantData = validate.data
 
     
-    const newProduct = new ProductModel({
-          name:productData.name,
-          slug:productData.slug,
-          category:productData.category,
-          mrp:productData.mrp,
-          sellingPrice:productData.sellingPrice,
-          discountPercentage:productData.discountPercentage,
-          media:productData.media,
-          description: productData.description
+    const newProductVariant = new ProductVariantModel({
+          product:variantData.product,
+          color:variantData.color,
+          size:variantData.size,
+          sku:variantData.sku,
+          mrp:variantData.mrp,
+          sellingPrice:variantData.sellingPrice,
+          discountPercentage:variantData.discountPercentage,
+          media:variantData.media,
 
     })
-    await newProduct.save()
-     return response(true, 200, "Product added successfully");
+    await newProductVariant.save()
+     return response(true, 200, "Product VAriant added successfully");
     
   } catch (error) {
     return catchError(error)
