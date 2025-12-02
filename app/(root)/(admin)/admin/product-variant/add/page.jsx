@@ -1,6 +1,6 @@
 "use client";
 import BreadCrumb from "@/components/Application/admin/BreadCrumb";
-import { ADMIN_DASHBOARD, ADMIN_PRODUCT_SHOW } from "@/routes/AdminPanelRoute";
+import { ADMIN_DASHBOARD,  ADMIN_PRODUCT_VARIANT_SHOW } from "@/routes/AdminPanelRoute";
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
@@ -27,8 +27,8 @@ import Image from "next/image";
 
 const breadcrumbData = [
   { href: ADMIN_DASHBOARD, label: "Home" },
-  { href: ADMIN_PRODUCT_SHOW, label: "Product" },
-  { href: "", label: "Add Product" },
+  { href: ADMIN_PRODUCT_VARIANT_SHOW, label: "Product Variant" },
+  { href: "", label: "Add Product Variant5" },
 ];
 
 const formSchema = zschema.pick({
@@ -44,8 +44,8 @@ const formSchema = zschema.pick({
 
 const AddProduct = () => {
   const [loading, setLoading] = useState(false);
-  const { data: getCategory } = useFetch(
-    "/api/category?deleteType=SD&&size=10000"
+  const { data: getProduct } = useFetch(
+    "/api/product?deleteType=SD&&size=10000"
   );
   const [categoryOption, setCategoryOption] = useState([]);
 
@@ -54,15 +54,15 @@ const AddProduct = () => {
   const [selectedMedia, setSelectedMedia] = useState([]);
 
   useEffect(() => {
-    if (getCategory && getCategory.success) {
-      const data = getCategory.data;
+    if (getProduct && getProduct.success) {
+      const data = getProduct.data;
       const options = data.map((cat) => ({
         label: cat.name,
         value: cat._id,
       }));
       setCategoryOption(options);
     }
-  }, [getCategory]);
+  }, [getProduct]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -136,7 +136,7 @@ const AddProduct = () => {
       <BreadCrumb breadcrumbData={breadcrumbData} />
       <Card className="py-0 rounded shadow-sm">
         <CardHeader className="pt-3 py-2 px-3 border-b [.border-b]:py-2 ">
-          <h4 className="text-xl font-semibold">Add Product</h4>
+          <h4 className="text-xl font-semibold">Add Product Variant</h4>
         </CardHeader>
         <CardContent className="pb-5">
           <Form {...form}>
