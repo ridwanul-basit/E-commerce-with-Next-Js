@@ -34,3 +34,7 @@ export const ADMIN_PRODUCT_VARIANT_EDIT = (id)=> id?  `/admin/product-variant/ed
 export const ADMIN_CUPON_ADD = '/admin/cupon/add'
 export const ADMIN_CUPON_SHOW = '/admin/cupon'
 export const ADMIN_CUPON_EDIT = (id)=> id?  `/admin/cupon/edit/${id}` : ''
+
+
+// customers
+export const ADMIN_CUSTOMERS_SHOW = '/admin/customers'
