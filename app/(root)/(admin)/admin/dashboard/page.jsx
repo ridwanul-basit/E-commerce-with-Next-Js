@@ -1,9 +1,10 @@
 import React from 'react'
+import CountOverview from './CountOverview'
 
 const AdminDashboard = () => {
   return (
-    <div>
-     
+    <div className='pt-5'>
+     <CountOverview/>
     </div>
   )
 }
