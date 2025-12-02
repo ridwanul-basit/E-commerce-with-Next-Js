@@ -24,6 +24,7 @@ import Select from "@/components/Application/Select";
 import Editor from "@/components/Application/admin/Editor";
 import MediaModal from "@/components/Application/admin/MediaModal";
 import Image from "next/image";
+import { sizes } from "@/lib/utils";
 
 const breadcrumbData = [
   { href: ADMIN_DASHBOARD, label: "Home" },
@@ -32,14 +33,14 @@ const breadcrumbData = [
 ];
 
 const formSchema = zschema.pick({
-  name: true,
-  slug: true,
-  category: true,
+  product: true,
+  sku: true,
+  color: true,
+  size: true,
   mrp: true,
   sellingPrice: true,
   discountPercentage: true,
   media: true,
-  description: true,
 });
 
 const AddProduct = () => {
@@ -47,7 +48,7 @@ const AddProduct = () => {
   const { data: getProduct } = useFetch(
     "/api/product?deleteType=SD&&size=10000"
   );
-  const [categoryOption, setCategoryOption] = useState([]);
+  const [productOption, setProductOption] = useState([]);
 
   //   mdia mdoal states
   const [open, setOpen] = useState(false);
@@ -56,33 +57,27 @@ const AddProduct = () => {
   useEffect(() => {
     if (getProduct && getProduct.success) {
       const data = getProduct.data;
-      const options = data.map((cat) => ({
-        label: cat.name,
-        value: cat._id,
+      const options = data.map((product) => ({
+        label: product.name,
+        value: product._id,
       }));
-      setCategoryOption(options);
+      setProductOption(options);
     }
   }, [getProduct]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      slug: "",
-      category: "",
+      product: "",
+      sku: "",
+      color: "",
+      size:"",
       mrp: 0,
       sellingPrice: 0,
       discountPercentage: 0,
       media: [],
-      description: "",
     },
   });
-
-  const editor = (event, editor) => {
-    const data = editor.getData();
-    form.setValue("description", data);
-  };
-
   const onSubmit = async (values) => {
     try {
       setLoading(true);
@@ -92,7 +87,7 @@ const AddProduct = () => {
       }
       const mediaIds= selectedMedia.map(media=>media._id)
       values.media= mediaIds
-      const { data } = await axios.post("/api/product/create", values);
+      const { data } = await axios.post("/api/product-variant/create", values);
       if (!data.success) {
         // Backend might respond with 401 (email not verified) or 404 (invalid credentials)
         throw new Error(data.message);
@@ -109,13 +104,6 @@ const AddProduct = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    const name = form.getValues("name");
-    if (name) {
-      form.setValue("slug", slugify(name).toLowerCase());
-    }
-  }, [form.watch("name")]);
 
   // discount percentage calculation
  useEffect(() => {
@@ -147,57 +135,79 @@ const AddProduct = () => {
               <div className="">
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="product"
                   render={({ field }) => (
                     <FormItem className="">
                       <FormLabel>
-                        Name <span className="text-red-500">*</span>{" "}
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Enter Name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="">
-                <FormField
-                  control={form.control}
-                  name="slug"
-                  render={({ field }) => (
-                    <FormItem className="">
-                      <FormLabel>
-                        Slug <span className="text-red-500">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="Enter slug"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="">
-                <FormField
-                  control={form.control}
-                  name="category"
-                  render={({ field }) => (
-                    <FormItem className="">
-                      <FormLabel>
-                        Category <span className="text-red-500">*</span>
+                        Product <span className="text-red-500">*</span>
                       </FormLabel>
                       <FormControl>
                         <Select
-                          options={categoryOption}
+                          options={productOption}
+                          selected={field.value}
+                          setSelected={field.onChange}
+                          isMulti={false}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="">
+                <FormField
+                  control={form.control}
+                  name="sku"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <FormLabel>
+                        SKU <span className="text-red-500">*</span>{" "}
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Enter sku"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="">
+                <FormField
+                  control={form.control}
+                  name="color"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <FormLabel>
+                        Color <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Enter color"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="">
+                <FormField
+                  control={form.control}
+                  name="size"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <FormLabel>
+                        Size <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Select
+                          options={sizes}
                           selected={field.value}
                           setSelected={field.onChange}
                           isMulti={false}
@@ -273,13 +283,13 @@ const AddProduct = () => {
                   )}
                 />
               </div>
-              <div className="mb-5 md:col-span-2">
+              {/* <div className="mb-5 md:col-span-2">
                 <FormLabel className="mb-2">
                   Description <span className="text-red-500">*</span>
                 </FormLabel>
                 <Editor onChange={editor} />
                 <FormMessage />
-              </div>
+              </div> */}
               <div className="md:col-span-2 border boder-dashed rounded p-5 text-center ">
                 {/* Show Selected Media */}
                 
@@ -328,7 +338,7 @@ const AddProduct = () => {
                 <ButtonLoading
                   loading={loading}
                   type="submit"
-                  text="Add Product"
+                  text="Add Product Variant"
                   className=""
                 />
               </div>
