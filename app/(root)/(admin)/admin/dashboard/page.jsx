@@ -67,7 +67,7 @@ const AdminDashboard = () => {
             </Button>
           </div>
         </CardHeader>
-        <CardContent className='pt-3'>
+        <CardContent className='pt-3 lg:h-[350px] overflow-auto'>
           <LatestOrder/>
         </CardContent>
 
