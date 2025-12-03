@@ -62,6 +62,13 @@ autoFocus
     </li>
 
     ))}
+
+    {query && results.length === 0 && 
+    <div className='text-sm text-center  text-red-500'>
+        No Result Found
+    </div>
+
+    }
     
 
 
