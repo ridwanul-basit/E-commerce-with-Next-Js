@@ -9,6 +9,7 @@ import AdminSearch from './AdminSearch'
 import logoBlack from '@/public/assets/images/logo-black.png'
 import logoWhite from '@/public/assets/images/logo-white.png'
 import Image from 'next/image'
+import AdminMobileSearch from './AdminMobileSearch'
 
 const TopBar = () => {
     const {toggleSidebar} = useSidebar()
@@ -22,6 +23,7 @@ const TopBar = () => {
      <AdminSearch/>
       </div>
       <div className='flex items-center gap-2'>
+        <AdminMobileSearch  />
            <ThemeSwitch/>
            <UserDropdown/>
            <Button onClick={toggleSidebar} type='button' size='icon' className='ms-2 md:hidden '>
