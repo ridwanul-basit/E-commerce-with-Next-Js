@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { OrderOverview } from './OrderOverview'
 import { OrderStatus } from './OrderStatus'
+import LatestOrder from './LatestOrder'
 
 const AdminDashboard = () => {
   return (
@@ -67,7 +68,7 @@ const AdminDashboard = () => {
           </div>
         </CardHeader>
         <CardContent>
-          
+          <LatestOrder/>
         </CardContent>
 
 
