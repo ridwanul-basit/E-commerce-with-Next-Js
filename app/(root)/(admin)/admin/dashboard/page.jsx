@@ -57,7 +57,7 @@ const AdminDashboard = () => {
      </div>
      <div className='mt-10 flex lg:flex-nowrap flex-wrap gap-10'>
 
-      <Card className='rounded-lg lg:w-[70%] w-full p-0'>
+      <Card className='rounded-lg lg:w-[70%] w-full p-0 block'>
         <CardHeader className=' py-3 border [.border-b]:pb-3 '>
 
           <div className='flex justify-between items-center '>
@@ -67,7 +67,7 @@ const AdminDashboard = () => {
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className='pt-3'>
           <LatestOrder/>
         </CardContent>
 
