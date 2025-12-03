@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { OrderOverview } from './OrderOverview'
+import { OrderStatus } from './OrderStatus'
 
 const AdminDashboard = () => {
   return (
@@ -33,7 +34,7 @@ const AdminDashboard = () => {
 
       </Card>
       <Card className='rounded-lg lg:w-[30%] w-full p-0'>
-        <CardHeader className=' py-3 '>
+        <CardHeader className=' border [.border-b]:pb-3 py-3 '>
 
           <div className='flex justify-between items-center'>
             <span className='font-semibold'>Order Summary</span>
@@ -44,6 +45,10 @@ const AdminDashboard = () => {
 
 
         </CardHeader>
+
+        <CardContent>
+          <OrderStatus/>
+        </CardContent>
 
 
       </Card>
