@@ -6,12 +6,19 @@ import { Button } from '@/components/ui/button'
 import { RiMenu4Fill } from "react-icons/ri";
 import { useSidebar } from '@/components/ui/sidebar';
 import AdminSearch from './AdminSearch'
+import logoBlack from '@/public/assets/images/logo-black.png'
+import logoWhite from '@/public/assets/images/logo-white.png'
+import Image from 'next/image'
 
 const TopBar = () => {
     const {toggleSidebar} = useSidebar()
   return (
     <div className='fixed border h-14  w-full top-0 left-0 z-30 md:ps-72 md:pe-10 px-5 flex justify-between items-center bg-white dark:bg-card '>
-      <div>
+      <div className='flex items-center md:hidden'>
+         <Image src={logoBlack.src} height={50} width={logoBlack.width} alt="Logo Dark" className="block dark:hidden h-[50px] w-auto " />
+                        <Image src={logoWhite.src} height={50} width={logoWhite.width} alt="Logo Light" className="hidden dark:block h-[50px] w-auto " />
+      </div>
+      <div className='md:block hidden'>
      <AdminSearch/>
       </div>
       <div className='flex items-center gap-2'>
