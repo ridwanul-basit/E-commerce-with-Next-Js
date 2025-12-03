@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { OrderOverview } from './OrderOverview'
 import { OrderStatus } from './OrderStatus'
 import LatestOrder from './LatestOrder'
+import LatestReview from './LatestReview'
 
 const AdminDashboard = () => {
   return (
@@ -73,7 +74,7 @@ const AdminDashboard = () => {
 
 
       </Card>
-      <Card className='rounded-lg lg:w-[30%] w-full p-0'>
+      <Card className='rounded-lg lg:w-[30%] w-full p-0 block'>
         <CardHeader className=' border [.border-b]:pb-3 py-3 '>
 
           <div className='flex justify-between items-center'>
@@ -86,8 +87,8 @@ const AdminDashboard = () => {
 
         </CardHeader>
 
-        <CardContent>
-          
+        <CardContent className='pt-3 px-1 lg:h-[350px] overflow-auto'>
+          <LatestReview/>
         </CardContent>
 
 
