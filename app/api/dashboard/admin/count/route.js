@@ -1,5 +1,6 @@
 import { isAuthenticated } from "@/lib/authentication";
 import { connectDB } from "@/lib/db";
+import { catchError, response } from "@/lib/helperFunction";
 import CategoryModel from "@/models/Category.model";
 import ProductModel from "@/models/Product.model";
 import UserModel from "@/models/User.model";
@@ -25,6 +26,7 @@ export async function GET() {
         })
         
     } catch (error) {
+        return catchError(error)
         
     }
 }
