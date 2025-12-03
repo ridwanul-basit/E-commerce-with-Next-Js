@@ -134,7 +134,7 @@ const EditProduct = ({ id }) => {
           <h4 className="text-xl font-semibold">Edit Product</h4>
         </CardHeader>
         <CardContent className="pb-5">
-          <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-5">
+          <form onSubmit={handleSubmit} className="grid md:grid-cols-2 grid-cols-1 gap-5">
             {/* Name */}
             <div>
               <label className="block font-medium mb-1">Name <span className="text-red-500">*</span></label>

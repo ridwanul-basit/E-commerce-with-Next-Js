@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import loading from "@/public/assets/images/loading.svg";
 import ModalMediaBlock from "./ModalMediaBlock";
 import { showToast } from "@/lib/showtoast";
+import { ButtonLoading } from "../ButtonLoading";
 const MediaModal = ({
   open,
   setOpen,
@@ -70,8 +71,8 @@ const MediaModal = ({
         className="sm:max-w-[80%] h-screen p-0 py-10 bg-transparent border-0 shadow-none"
       >
         <DialogDescription className="hidden"></DialogDescription>
-        <div className="h-[90vh] bg-white p-3 rounded shadow">
-          <DialogHeader className="h-8 borber-b  text-black">
+        <div className="h-[90vh] bg-white dark:bg-card p-3 rounded shadow">
+          <DialogHeader className="h-8 borber-b  text-black dark:text-white">
             <DialogTitle>Media Selection</DialogTitle>
           </DialogHeader>
 
@@ -85,6 +86,7 @@ const MediaModal = ({
                 <span className="text-red-500"> {error.message}</span>
               </div>
             ) : (
+              <>
               <div className="grid lg:grid-cols-6 grid-cols-3 gap-2">
                 {data?.pages?.map((page, index) => (
                   <React.Fragment key={index}>
@@ -100,6 +102,18 @@ const MediaModal = ({
                   </React.Fragment>
                 ))}
               </div>
+
+              {hasNextPage? 
+            <div className="flex justify-center py-5">
+              <ButtonLoading type="button" onClick = {()=>fetchNextPage()} loading={isFetching} text='Load More' />
+
+            </div> 
+            : <p className="text-center py-5" >Nothing more to Load</p> 
+            }
+              
+              </>
+
+             
             )}
           </div>
 

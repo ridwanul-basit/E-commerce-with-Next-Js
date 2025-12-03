@@ -99,7 +99,7 @@ const EditCupon = ({ id }) => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="grid md:grid-cols-2 gap-5"
+              className="grid md:grid-cols-2 grid-cols-1  gap-5"
             >
               {/* Code */}
               <FormField

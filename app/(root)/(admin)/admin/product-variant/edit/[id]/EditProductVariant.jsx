@@ -128,7 +128,7 @@ const EditProductVariant = ({ id }) => {
         </CardHeader>
 
         <CardContent className="pb-5">
-          <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-5">
+          <form onSubmit={handleSubmit} className="grid md:grid-cols-2 grid-cols-1  gap-5">
             {/* Product */}
             <div>
               <label className="block font-medium mb-1">
