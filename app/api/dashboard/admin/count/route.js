@@ -5,7 +5,7 @@ import CategoryModel from "@/models/Category.model";
 import ProductModel from "@/models/Product.model";
 import UserModel from "@/models/User.model";
 
-export async function GET() {
+export async function GET(request) {
     try {
 
     const auth = await isAuthenticated("admin", request);
