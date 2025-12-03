@@ -54,6 +54,45 @@ const AdminDashboard = () => {
       </Card>
 
      </div>
+     <div className='mt-10 flex lg:flex-nowrap flex-wrap gap-10'>
+
+      <Card className='rounded-lg lg:w-[70%] w-full p-0'>
+        <CardHeader className=' py-3 border [.border-b]:pb-3 '>
+
+          <div className='flex justify-between items-center '>
+            <span className='font-semibold'>Latest Order</span>
+            <Button type='button' >
+              <Link href={''} > View All</Link>
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          
+        </CardContent>
+
+
+      </Card>
+      <Card className='rounded-lg lg:w-[30%] w-full p-0'>
+        <CardHeader className=' border [.border-b]:pb-3 py-3 '>
+
+          <div className='flex justify-between items-center'>
+            <span className='font-semibold'>Latest Review</span>
+            <Button type='button' >
+              <Link href={''} > View All</Link>
+            </Button>
+          </div>
+
+
+        </CardHeader>
+
+        <CardContent>
+          
+        </CardContent>
+
+
+      </Card>
+
+     </div>
 
     </div>
   )
