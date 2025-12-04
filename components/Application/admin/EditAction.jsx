@@ -1,7 +1,7 @@
-import { ListItemIcon, MenuItem } from '@mui/material'
-import Link from 'next/link'
-import React from 'react'
-import EditIcon from '@mui/icons-material/Edit';
+import { ListItemIcon, MenuItem } from "@mui/material";
+import Link from "next/link";
+import React from "react";
+import EditIcon from "@mui/icons-material/Edit";
 
 const EditAction = ({ href }) => {
   return (
@@ -11,7 +11,7 @@ const EditAction = ({ href }) => {
       </ListItemIcon>
       Edit
     </MenuItem>
-  )
-}
+  );
+};
 
-export default EditAction
+export default EditAction;

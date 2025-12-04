@@ -23,21 +23,21 @@ const Media = ({
   setSelectedMedia,
 }) => {
   const handleCheck = () => {
-    let newSelectedMedia = []
+    let newSelectedMedia = [];
 
     if (selectedMedia.includes(media._id)) {
-      newSelectedMedia = selectedMedia.filter(id => id !== media._id)
+      newSelectedMedia = selectedMedia.filter((id) => id !== media._id);
     } else {
-      newSelectedMedia = [...selectedMedia, media._id]
+      newSelectedMedia = [...selectedMedia, media._id];
     }
 
-    setSelectedMedia(newSelectedMedia)
-  }
+    setSelectedMedia(newSelectedMedia);
+  };
 
   const handlecopyLink = async (url) => {
-    await navigator.clipboard.writeText(url)
-    showToast("success", "Link copied!")
-}
+    await navigator.clipboard.writeText(url);
+    showToast("success", "Link copied!");
+  };
   return (
     <div>
       <div className="border - border-gray-200 dark:border-gray-800 relative group rounded overflow-hidden">
@@ -56,34 +56,34 @@ const Media = ({
               </span>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
-              {deleteType === "SD" && 
+              {deleteType === "SD" && (
                 <>
                   <DropdownMenuItem asChild>
                     <Link href={ADMIN_MEDIA_EDIT(media._id)}>
                       <MdOutlineEdit />
                       Edit
                     </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem  onClick={()=>handlecopyLink(media.secure_url)}>
-                        <FaLink />
-                        Copy Link
-                    </DropdownMenuItem>
-                  
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handlecopyLink(media.secure_url)}
+                  >
+                    <FaLink />
+                    Copy Link
+                  </DropdownMenuItem>
                 </>
-              }
-             
-             <DropdownMenuItem asChild>
-  <button
-    onClick={() => handleDelete([media._id], deleteType)}
-    className="flex items-center gap-2"
-  >
-    <AiTwotoneDelete color="red" />
-    {deleteType === 'SD' ? 'Move Into Trash' : 'Delete Permanently'}
-  </button>
-</DropdownMenuItem>
+              )}
 
-
-
+              <DropdownMenuItem asChild>
+                <button
+                  onClick={() => handleDelete([media._id], deleteType)}
+                  className="flex items-center gap-2"
+                >
+                  <AiTwotoneDelete color="red" />
+                  {deleteType === "SD"
+                    ? "Move Into Trash"
+                    : "Delete Permanently"}
+                </button>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

@@ -51,7 +51,7 @@ const MediaModal = ({
   const handleClear = () => {
     setSelectedMedia([]);
     setPreviouslySelected([]);
-    showToast('success', "Media selection clear")
+    showToast("success", "Media selection clear");
   };
   const handleClose = () => {
     setSelectedMedia(previouslySelected);
@@ -87,33 +87,35 @@ const MediaModal = ({
               </div>
             ) : (
               <>
-              <div className="grid lg:grid-cols-6 grid-cols-3 gap-2">
-                {data?.pages?.map((page, index) => (
-                  <React.Fragment key={index}>
-                    {page?.mediaData?.map((media) => (
-                      <ModalMediaBlock
-                        key={media._id}
-                        media={media}
-                        selectedMedia={selectedMedia}
-                        setSelectedMedia={setSelectedMedia}
-                        isMultiple={isMultiple}
-                      />
-                    ))}
-                  </React.Fragment>
-                ))}
-              </div>
+                <div className="grid lg:grid-cols-6 grid-cols-3 gap-2">
+                  {data?.pages?.map((page, index) => (
+                    <React.Fragment key={index}>
+                      {page?.mediaData?.map((media) => (
+                        <ModalMediaBlock
+                          key={media._id}
+                          media={media}
+                          selectedMedia={selectedMedia}
+                          setSelectedMedia={setSelectedMedia}
+                          isMultiple={isMultiple}
+                        />
+                      ))}
+                    </React.Fragment>
+                  ))}
+                </div>
 
-              {hasNextPage? 
-            <div className="flex justify-center py-5">
-              <ButtonLoading type="button" onClick = {()=>fetchNextPage()} loading={isFetching} text='Load More' />
-
-            </div> 
-            : <p className="text-center py-5" >Nothing more to Load</p> 
-            }
-              
+                {hasNextPage ? (
+                  <div className="flex justify-center py-5">
+                    <ButtonLoading
+                      type="button"
+                      onClick={() => fetchNextPage()}
+                      loading={isFetching}
+                      text="Load More"
+                    />
+                  </div>
+                ) : (
+                  <p className="text-center py-5">Nothing more to Load</p>
+                )}
               </>
-
-             
             )}
           </div>
 
