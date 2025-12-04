@@ -5,6 +5,7 @@ import Link from 'next/link'
 import React from 'react'
 import banner1 from '@/public/assets/images/banner1.png'
 import banner2 from '@/public/assets/images/banner2.png'
+import FeaturedProduct from '@/components/Application/Website/FeaturedProduct'
 
 const Home = () => {
     console.log(banner1, banner2)
@@ -39,6 +40,7 @@ const Home = () => {
           </div>
         </div>
     </section>
+    <FeaturedProduct/>
     </div>
   )
 }
