@@ -1,10 +1,12 @@
+'use client'
+import MainSlider from '@/components/Application/Website/MainSlider'
 import React from 'react'
 
 const Home = () => {
   return (
-    <div>
-      Basit
-    </div>
+    <section>
+      <MainSlider />
+    </section>
   )
 }
 
