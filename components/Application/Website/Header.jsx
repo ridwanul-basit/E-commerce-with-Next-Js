@@ -34,7 +34,7 @@ const Header = () => {
             
 
             <div className='flex justify-between gap-20'>
-                <nav className={`lg:relative lg:w-auto lg:top-0 lg:left-0 lg:p-0 bg-white fixed z-50 top-0 w-full h-screen  ${isMobileMenu ? 'left-0' : '-left-full'} `}>
+                <nav className={`lg:relative lg:w-auto lg:top-0 lg:left-0 lg:p-0 transition-all lg:h-auto bg-white fixed z-50 top-0 w-full h-screen  ${isMobileMenu ? 'left-0' : '-left-full'} `}>
                 <div className='lg:hidden flex justify-between items-center bg-gray-50 py-3 border-b px-3'>
                        <Image 
             src={logo}
