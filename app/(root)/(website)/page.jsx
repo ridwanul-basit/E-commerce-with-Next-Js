@@ -6,6 +6,7 @@ import React from 'react'
 import banner1 from '@/public/assets/images/banner1.png'
 import banner2 from '@/public/assets/images/banner2.png'
 import FeaturedProduct from '@/components/Application/Website/FeaturedProduct'
+import advertisingBanner from '@/public/assets/images/advertising-banner.png'
 
 const Home = () => {
     console.log(banner1, banner2)
@@ -41,6 +42,16 @@ const Home = () => {
         </div>
     </section>
     <FeaturedProduct/>
+
+    <section className='lg:px-32 px-4 sm:pt-20 pt-5 pb-10 '>
+        <Image 
+        src={advertisingBanner.src}
+        height={advertisingBanner.height}
+        width={advertisingBanner.width}
+        alt="Advertisement"
+        className='rounded-2xl'
+        />
+    </section>
     </div>
   )
 }

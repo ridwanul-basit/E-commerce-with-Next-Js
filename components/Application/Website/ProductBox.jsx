@@ -9,7 +9,8 @@ const ProductBox = ({ product }) => {
     <div className="border rounded-2xl overflow-hidden bg-white hover:shadow-lg ">
       {/* IMAGE */}
 
-  <Image
+     <Link href={''} >
+     <Image
     src={img}
     alt={product.name}
     width={400}
@@ -38,6 +39,8 @@ const ProductBox = ({ product }) => {
 
       
       </div>
+     </Link>
+  
       </div>
  
   );
