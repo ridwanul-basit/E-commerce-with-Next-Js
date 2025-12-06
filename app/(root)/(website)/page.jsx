@@ -7,6 +7,7 @@ import banner1 from '@/public/assets/images/banner1.png'
 import banner2 from '@/public/assets/images/banner2.png'
 import FeaturedProduct from '@/components/Application/Website/FeaturedProduct'
 import advertisingBanner from '@/public/assets/images/advertising-banner.png'
+import Testimonial from '@/components/Application/Website/Testimonial'
 
 const Home = () => {
     console.log(banner1, banner2)
@@ -52,8 +53,9 @@ const Home = () => {
         className='rounded-2xl'
         />
     </section>
+    <Testimonial/>
 
-    
+
     </div>
   )
 }
