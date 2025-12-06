@@ -52,6 +52,8 @@ const Home = () => {
         className='rounded-2xl'
         />
     </section>
+
+    
     </div>
   )
 }
