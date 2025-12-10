@@ -9,8 +9,6 @@ export async function GET() {
    
     await connectDB();
 
-    const getParams = await params;
-    const id = getParams.id;
 
     const getColor = await ProductVariantModel.distinct('color')
 
