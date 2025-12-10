@@ -111,8 +111,6 @@ const Testimonial = () => {
         </div>
       ))}
     </Slider>
-
-
     </div>
    
   );

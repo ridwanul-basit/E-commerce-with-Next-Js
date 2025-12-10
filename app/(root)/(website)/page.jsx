@@ -8,7 +8,10 @@ import banner2 from '@/public/assets/images/banner2.png'
 import FeaturedProduct from '@/components/Application/Website/FeaturedProduct'
 import advertisingBanner from '@/public/assets/images/advertising-banner.png'
 import Testimonial from '@/components/Application/Website/Testimonial'
-
+import { GiReturnArrow } from "react-icons/gi";
+import { FaShippingFast } from "react-icons/fa";
+import { BiSupport } from "react-icons/bi";
+import { TbRosetteDiscountFilled } from "react-icons/tb";
 const Home = () => {
     console.log(banner1, banner2)
   return (
@@ -54,6 +57,46 @@ const Home = () => {
         />
     </section>
     <Testimonial/>
+
+    <section className='lg:px-32 px-4 border-t py-10' >
+
+      <div className='grid lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-10' >
+        <div className='text-center' >
+          <p className='flex justify-center items-center mb-3' >
+<GiReturnArrow size={30} /> 
+          </p>
+          <h3 className='text-xl font-semibold'>7-Days Returns</h3>
+          <p>Risk-free shopping with easy returns.</p>
+
+        </div>
+        <div className='text-center' >
+          <p className='flex justify-center items-center mb-3' >
+ <FaShippingFast size={30} />
+          </p>
+          <h3 className='text-xl font-semibold'>Free Shipping</h3>
+          <p>No extra costs, just the price you see.</p>
+
+        </div>
+        <div className='text-center' >
+          <p className='flex justify-center items-center mb-3' >
+ <BiSupport size={30} /> 
+          </p>
+          <h3 className='text-xl font-semibold'>24/7 Support</h3>
+          <p>24/7 support, alway here just for you.</p>
+
+        </div>
+        <div className='text-center' >
+          <p className='flex justify-center items-center mb-3' >
+ <TbRosetteDiscountFilled size={30} />
+          </p>
+          <h3 className='text-xl font-semibold'>Member Discounts</h3>
+          <p>Special offers for our loyal customers.</p>
+
+        </div>
+
+      </div>
+
+    </section>
 
 
     </div>
