@@ -12,13 +12,29 @@ export async function GET() {
     const getParams = await params;
     const id = getParams.id;
 
-    const getSize = await ProductVariantModel.distinct('size')
+    const getSize = await ProductVariantModel.aggregate([
+        { $size : {_id:1}},
+        {
+            $group : {
+                _id : "$size",
+                first : {$first : "$_id"}
+            }
+        },
+        {
+            $sort : {first:1}
+        },
+        {
+            $project: {_id:0,size:"$_id"}
+        }
+    ])
 
-    if (!getSize) {
+    if (!getSize.length) {
       return response(false, 404, "Size not found");
     }
 
-    return response(true, 200, "Size Found", getSize);
+    const sizes = getSize.map(item=>item.size)
+
+    return response(true, 200, "Size Found", sizes);
   } catch (error) {
     return catchError(error);
   }
