@@ -10,9 +10,15 @@ import {
 } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
+import { ButtonLoading } from "../ButtonLoading";
+import { useSearchParams } from "next/navigation";
 
 const Filter = () => {
-  const [priceFilter,setPriceFilter] = useState({minPrice:0,maxPrice:0})
+  const searchParams = useSearchParams()
+  const [priceFilter,setPriceFilter] = useState({minPrice:0,maxPrice:3000})
+  const [selectedCategory,setSelectedCategory] = useState([])
+  const [selectedColor,setSelectedColor] = useState([])
+  const [selectedSize,setSelectedSize] = useState([])
   const { data: categoryData } = useFetch("/api/category/get-category");
   const { data: sizeData } = useFetch("/api/product-variant/sizes");
   const { data: colorData } = useFetch("/api/product-variant/colors");
@@ -20,6 +26,17 @@ const handlePriceChange = (value) => {
     setPriceFilter({minPrice: value[0],maxPrice: value[1]})
     
 }
+
+const handleCategoryFilter = (categorySlug) => {
+    let newSelectedCategory = [...selectedCategory]
+     if (newSelectedCategory.includes(categorySlug)){
+      newSelectedCategory = newSelectedCategory.filter(cat => cat !== categorySlug)
+     }else {
+      newSelectedCategory.push(categorySlug)
+     }
+     setSelectedCategory(newSelectedCategory)
+}
+
   return (
     <div>
       <Accordion type="multiple" defaultValue={["1", "2", "3", "4"]}>
@@ -34,7 +51,10 @@ const handlePriceChange = (value) => {
                   categoryData.data?.map((category) => (
                     <li key={category._id} className="mb-3">
                       <label className="flex items-center space-x-3 cursor-pointer ">
-                        <Checkbox />
+                        <Checkbox 
+                        onCheckedChange= {()=> handleCategoryFilter(category.slug)}
+                        checked = {selectedCategory.includes(category.slug)}
+                        />
                         <span>{category.name}</span>
                       </label>
                     </li>
@@ -92,6 +112,11 @@ const handlePriceChange = (value) => {
             <div className="flex justify-between items-center pt-2" >
                    <span>{priceFilter.minPrice.toLocaleString('en-BD', {style:'currency',currency:"BDT"})}</span>
                    <span>{priceFilter.maxPrice.toLocaleString('en-BD', {style:'currency',currency:"BDT"})}</span>
+            </div>
+
+            <div className="mt-4" >
+              <ButtonLoading type='button' text='Filter Price' className='rounded-full'   />
+
             </div>
           </AccordionContent>
         </AccordionItem>
