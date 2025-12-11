@@ -26,7 +26,7 @@ const ShopPage = () => {
             <Filter />
           </div>
         </div>
-        <div className="lg:w-[100%-18rem]">
+        <div className="lg:w-[calc(100%-18rem)]">
           <Shorting    
           limit={limit}
           setLimit={setLimit}
