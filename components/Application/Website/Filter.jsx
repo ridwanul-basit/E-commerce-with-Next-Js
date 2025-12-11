@@ -1,6 +1,6 @@
 "use client";
 import useFetch from "@/hooks/useFetch";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Accordion,
@@ -11,7 +11,9 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { ButtonLoading } from "../ButtonLoading";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { WEBSITE_SHOP } from "@/routes/WebsiteRoute";
+
 
 const Filter = () => {
   const searchParams = useSearchParams()
@@ -22,6 +24,8 @@ const Filter = () => {
   const { data: categoryData } = useFetch("/api/category/get-category");
   const { data: sizeData } = useFetch("/api/product-variant/sizes");
   const { data: colorData } = useFetch("/api/product-variant/colors");
+  const urlSearchParams = new URLSearchParams(searchParams.toString())
+  const router = useRouter()
 const handlePriceChange = (value) => {
     setPriceFilter({minPrice: value[0],maxPrice: value[1]})
     
@@ -35,8 +39,36 @@ const handleCategoryFilter = (categorySlug) => {
       newSelectedCategory.push(categorySlug)
      }
      setSelectedCategory(newSelectedCategory)
-}
-
+     newSelectedCategory.length > 0 ? urlSearchParams.set('category', newSelectedCategory.join(',')) : urlSearchParams.delete('category')
+    router.push(`${WEBSITE_SHOP}?${urlSearchParams}`)
+    }
+const handleColorFilter = (color) => {
+    let newSelectedColor = [...selectedColor]
+     if (newSelectedColor.includes(color)){
+      newSelectedColor = newSelectedColor.filter(cat => cat !== color)
+     }else {
+      newSelectedColor.push(color)
+     }
+     setSelectedColor(newSelectedColor)
+     newSelectedColor.length > 0 ? urlSearchParams.set('color', newSelectedColor.join(',')) : urlSearchParams.delete('color')
+    router.push(`${WEBSITE_SHOP}?${urlSearchParams}`)
+    }
+const handleSizeFilter = (size) => {
+    let newSelectedSize = [...selectedSize]
+     if (newSelectedSize.includes(size)){
+      newSelectedSize = newSelectedSize.filter(cat => cat !== size)
+     }else {
+      newSelectedSize.push(size)
+     }
+     setSelectedSize(newSelectedSize)
+     newSelectedSize.length > 0 ? urlSearchParams.set('size', newSelectedSize.join(',')) : urlSearchParams.delete('size')
+    router.push(`${WEBSITE_SHOP}?${urlSearchParams}`)
+    }
+    useEffect(()=>{
+      searchParams.get('category') ? setSelectedCategory(searchParams.get('category').split(',')) : setSelectedCategory([])
+      searchParams.get('color') ? setSelectedColor(searchParams.get('color').split(',')) : setSelectedColor([])
+      searchParams.get('size') ? setSelectedSize(searchParams.get('size').split(',')) : setSelectedSize([])
+    },[searchParams])
   return (
     <div>
       <Accordion type="multiple" defaultValue={["1", "2", "3", "4"]}>
@@ -74,7 +106,10 @@ const handleCategoryFilter = (categorySlug) => {
                   colorData.data?.map((color) => (
                     <li key={color} className="mb-3">
                       <label className="flex items-center space-x-3 cursor-pointer ">
-                        <Checkbox />
+                        <Checkbox 
+                        onCheckedChange= {()=> handleColorFilter(color)}
+                        checked = {selectedColor.includes(color)}
+                        />
                         <span>{color}</span>
                       </label>
                     </li>
@@ -94,7 +129,10 @@ const handleCategoryFilter = (categorySlug) => {
                   sizeData.data?.map((size) => (
                     <li key={size} className="mb-3">
                       <label className="flex items-center space-x-3 cursor-pointer ">
-                        <Checkbox />
+                        <Checkbox 
+                        onCheckedChange= {()=> handleSizeFilter(size)}
+                        checked = {selectedSize.includes(size)}
+                        />
                         <span>{size}</span>
                       </label>
                     </li>
