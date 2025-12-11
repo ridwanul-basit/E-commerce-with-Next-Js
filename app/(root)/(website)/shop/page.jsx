@@ -1,7 +1,9 @@
+'use client'
 import Filter from "@/components/Application/Website/Filter";
+import Shorting from "@/components/Application/Website/Shorting";
 import WebsiteBreadCrumb from "@/components/Application/Website/WebsiteBreadCrumb";
 import { WEBSITE_SHOP } from "@/routes/WebsiteRoute";
-import React from "react";
+import React, { useState } from "react";
 
 const breadcrumb = {
   title: "Shop",
@@ -14,6 +16,7 @@ const breadcrumb = {
 };
 
 const ShopPage = () => {
+  const [limit,setLimit] = useState(9)
   return (
     <div>
       <WebsiteBreadCrumb props={breadcrumb} />
@@ -22,6 +25,12 @@ const ShopPage = () => {
           <div className="sticky top-0 bg-gray-50 p-4 rounded">
             <Filter />
           </div>
+        </div>
+        <div className="lg:w-[100%-18rem]">
+          <Shorting    
+          limit={limit}
+          setLimit={setLimit}
+          />
         </div>
       </section>
     </div>
