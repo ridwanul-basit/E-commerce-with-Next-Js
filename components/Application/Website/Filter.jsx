@@ -1,6 +1,6 @@
 "use client";
 import useFetch from "@/hooks/useFetch";
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Accordion,
@@ -9,12 +9,17 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Slider } from "@/components/ui/slider";
 
 const Filter = () => {
+  const [priceFilter,setPriceFilter] = useState({minPrice:0,maxPrice:0})
   const { data: categoryData } = useFetch("/api/category/get-category");
   const { data: sizeData } = useFetch("/api/product-variant/sizes");
   const { data: colorData } = useFetch("/api/product-variant/colors");
-
+const handlePriceChange = (value) => {
+    setPriceFilter({minPrice: value[0],maxPrice: value[1]})
+    
+}
   return (
     <div>
       <Accordion type="multiple" defaultValue={["1", "2", "3", "4"]}>
@@ -80,21 +85,13 @@ const Filter = () => {
         </AccordionItem>
         <AccordionItem value="4">
           <AccordionTrigger className="uppercase font-semibold hover:no-underline ">
-            Category
+            Price
           </AccordionTrigger>
           <AccordionContent>
-            <div className="max-h-48 overflow-auto">
-              <ul>
-                {categoryData?.success &&
-                  categoryData.data?.map((category) => (
-                    <li key={category._id} className="mb-3">
-                      <label className="flex items-center space-x-3 cursor-pointer ">
-                        <Checkbox />
-                        <span>{category.name}</span>
-                      </label>
-                    </li>
-                  ))}
-              </ul>
+            <Slider defaultValue={[0,3000]} max={3000} step={1} onValueChange={handlePriceChange} />
+            <div className="flex justify-between items-center pt-2" >
+                   <span>{priceFilter.minPrice.toLocaleString('en-BD', {style:'currency',currency:"BDT"})}</span>
+                   <span>{priceFilter.maxPrice.toLocaleString('en-BD', {style:'currency',currency:"BDT"})}</span>
             </div>
           </AccordionContent>
         </AccordionItem>
