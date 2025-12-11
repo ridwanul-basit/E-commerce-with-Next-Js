@@ -13,6 +13,8 @@ import { Slider } from "@/components/ui/slider";
 import { ButtonLoading } from "../ButtonLoading";
 import { useRouter, useSearchParams } from "next/navigation";
 import { WEBSITE_SHOP } from "@/routes/WebsiteRoute";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 
 const Filter = () => {
@@ -64,6 +66,12 @@ const handleSizeFilter = (size) => {
      newSelectedSize.length > 0 ? urlSearchParams.set('size', newSelectedSize.join(',')) : urlSearchParams.delete('size')
     router.push(`${WEBSITE_SHOP}?${urlSearchParams}`)
     }
+
+    const handlePriceFilter = ()=>{
+      urlSearchParams.set('minPrice',priceFilter.minPrice)
+      urlSearchParams.set('maxPrice',priceFilter.maxPrice)
+      router.push(`${WEBSITE_SHOP}?${urlSearchParams}`)
+    }
     useEffect(()=>{
       searchParams.get('category') ? setSelectedCategory(searchParams.get('category').split(',')) : setSelectedCategory([])
       searchParams.get('color') ? setSelectedColor(searchParams.get('color').split(',')) : setSelectedColor([])
@@ -71,6 +79,11 @@ const handleSizeFilter = (size) => {
     },[searchParams])
   return (
     <div>
+      {searchParams.size >0  && 
+        <Button type='button' variant='destructive' className='w-full' asChild >
+          <Link href={WEBSITE_SHOP} >Clear Filter</Link>
+        </Button>
+      }
       <Accordion type="multiple" defaultValue={["1", "2", "3", "4"]}>
         <AccordionItem value="1">
           <AccordionTrigger className="uppercase font-semibold hover:no-underline ">
@@ -153,7 +166,7 @@ const handleSizeFilter = (size) => {
             </div>
 
             <div className="mt-4" >
-              <ButtonLoading type='button' text='Filter Price' className='rounded-full'   />
+              <ButtonLoading onClick={handlePriceFilter} type='button' text='Filter Price' className='rounded-full'   />
 
             </div>
           </AccordionContent>
