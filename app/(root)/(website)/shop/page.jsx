@@ -17,6 +17,7 @@ const breadcrumb = {
 
 const ShopPage = () => {
   const [limit,setLimit] = useState(9)
+  const [sorting, setSorting] = useState(["default_sorting"])
   return (
     <div>
       <WebsiteBreadCrumb props={breadcrumb} />
@@ -30,6 +31,8 @@ const ShopPage = () => {
           <Shorting    
           limit={limit}
           setLimit={setLimit}
+          sorting={sorting}
+          setSorting={setSorting}
           />
         </div>
       </section>
