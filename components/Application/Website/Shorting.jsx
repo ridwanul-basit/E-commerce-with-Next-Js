@@ -10,10 +10,10 @@ import { sortings } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { IoFilter } from "react-icons/io5";
 
-const Shorting = ({limit,setLimit,sorting,setSorting,mobileFilterOpen,setMobileFilterOpen}) => {
+const Shorting = ({limit,setLimit,sorting,setSorting,isMobileFilterOpen,setIsMobileFilterOpen}) => {
   return (
     <div className='flex justify-between items-center flex-wrap gap-2 p-4 bg-gray-50'>
-      <Button type='button' className="lg:hidden" variant='outline' onClick = {()=>setMobileFilterOpen(!mobileFilterOpen) } >
+      <Button type='button' className="lg:hidden" variant='outline' onClick = {()=>setIsMobileFilterOpen(!isMobileFilterOpen) } >
         <IoFilter />
         Filter
       </Button>

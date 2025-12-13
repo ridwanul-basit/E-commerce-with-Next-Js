@@ -27,7 +27,9 @@ const breadcrumb = {
 const ShopPage = () => {
   const [limit,setLimit] = useState(9)
   const [sorting, setSorting] = useState("default_sorting")
+  const [isMobileFilterOpen,setIsMobileFilterOpen] = useState(false)
   const windowSize = useWindowSize()
+
   return (
     <div>
       <WebsiteBreadCrumb props={breadcrumb} />
@@ -41,8 +43,8 @@ const ShopPage = () => {
         </div>
 
         :
-        <Sheet>
-  <SheetTrigger>Open</SheetTrigger>
+        <Sheet open={isMobileFilterOpen} onOpenChange={setIsMobileFilterOpen} >
+  
   <SheetContent>
     <SheetHeader>
       <SheetTitle>Are you absolutely sure?</SheetTitle>
@@ -61,6 +63,8 @@ const ShopPage = () => {
           setLimit={setLimit}
           sorting={sorting}
           setSorting={setSorting}
+          isMobileFilterOpen={isMobileFilterOpen}
+          setIsMobileFilterOpen={setIsMobileFilterOpen}
           />
         </div>
       </section>
