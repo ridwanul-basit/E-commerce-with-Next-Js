@@ -45,13 +45,16 @@ const ShopPage = () => {
         :
         <Sheet open={isMobileFilterOpen} onOpenChange={setIsMobileFilterOpen} >
   
-  <SheetContent>
-    <SheetHeader>
-      <SheetTitle>Are you absolutely sure?</SheetTitle>
-      <SheetDescription>
-        This action cannot be undone. This will permanently delete your account
-        and remove your data from our servers.
+  <SheetContent side="left" className='block'>
+    <SheetHeader >
+      <SheetTitle className='border-b pb-2'>Filter</SheetTitle>
+      <SheetDescription className='p-0'>
+       
       </SheetDescription>
+      <div className="mt-5 overflow-auto h-[calc(100vh-80px)]">
+        <Filter />
+
+      </div>
     </SheetHeader>
   </SheetContent>
 </Sheet>
