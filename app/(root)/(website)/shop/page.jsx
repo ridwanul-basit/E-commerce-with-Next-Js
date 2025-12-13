@@ -12,6 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import useWindowSize from "@/hooks/useWindowSize";
 
 const breadcrumb = {
   title: "Shop",
@@ -26,17 +27,21 @@ const breadcrumb = {
 const ShopPage = () => {
   const [limit,setLimit] = useState(9)
   const [sorting, setSorting] = useState("default_sorting")
+  const windowSize = useWindowSize()
   return (
     <div>
       <WebsiteBreadCrumb props={breadcrumb} />
       <section className="lg:flex lg:px-32 px-4 my-20 ">
-        <div className="w-72 me-4">
+        {windowSize.width >1024 
+        ?
+          <div className="w-72 me-4">
           <div className="sticky top-0 bg-gray-50 p-4 rounded">
             <Filter />
           </div>
         </div>
-       
-       <Sheet>
+
+        :
+        <Sheet>
   <SheetTrigger>Open</SheetTrigger>
   <SheetContent>
     <SheetHeader>
@@ -48,7 +53,7 @@ const ShopPage = () => {
     </SheetHeader>
   </SheetContent>
 </Sheet>
-
+        }
 
         <div className="lg:w-[calc(100%-18rem)]">
           <Shorting    
