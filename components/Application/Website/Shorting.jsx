@@ -6,6 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { sortings } from '@/lib/utils'
 
 const Shorting = ({limit,setLimit,sorting,setSorting,mobileFilterOpen,setMobileFilterOpen}) => {
   return (
@@ -26,10 +27,9 @@ const Shorting = ({limit,setLimit,sorting,setSorting,mobileFilterOpen,setMobileF
     <SelectValue placeholder="Default Sorting" />
   </SelectTrigger>
   <SelectContent>
-    sortings
-    <SelectItem value="light">Light</SelectItem>
-    <SelectItem value="dark">Dark</SelectItem>
-    <SelectItem value="system">System</SelectItem>
+    {sortings.map(option=>(
+           <SelectItem key={option.value} value={option.value} >{option.label} </SelectItem>
+    ))}
   </SelectContent>
 </Select>
      
