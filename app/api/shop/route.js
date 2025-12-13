@@ -18,9 +18,24 @@ export async function GET(request) {
     const search = searchParams.get('q')
 
     // pagination
+    const limit = pareseInt(searchParams.get('limit')) || 9
+    const page = pareseInt(searchParams.get('page')) || 0
+    const skip = page* limit 
+
+    // sorting 
+
+    const sortOption = searchParams.get('sort') || 'default_sorting'
+    let sortquery = {}
+    if (sortOption == 'default_sorting') sortquery= {createdAr:-1}
+    if (sortOption == 'asc') sortquery= {name:1}
+    if (sortOption == 'desc') sortquery= {name:1}
+    if (sortOption == 'price_low_high') sortquery= {sellingPrice:1}
+    if (sortOption == 'price_high_low') sortquery= {sellingPrice:-1}
 
 
+    // find category by slug 
 
+    
 
    
   } catch (error) {
