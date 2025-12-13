@@ -22,7 +22,7 @@ const Shorting = ({limit,setLimit,sorting,setSorting,mobileFilterOpen,setMobileF
         ))}
       </ul>
 
-      <Select>
+      <Select value={sorting} onValueChange={(value)=> setSorting(value)} >
   <SelectTrigger className='md:w-[180px] w-full bg-white' >
     <SelectValue placeholder="Default Sorting" />
   </SelectTrigger>

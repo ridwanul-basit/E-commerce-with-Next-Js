@@ -4,6 +4,14 @@ import Shorting from "@/components/Application/Website/Shorting";
 import WebsiteBreadCrumb from "@/components/Application/Website/WebsiteBreadCrumb";
 import { WEBSITE_SHOP } from "@/routes/WebsiteRoute";
 import React, { useState } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 
 const breadcrumb = {
   title: "Shop",
@@ -17,7 +25,7 @@ const breadcrumb = {
 
 const ShopPage = () => {
   const [limit,setLimit] = useState(9)
-  const [sorting, setSorting] = useState(["default_sorting"])
+  const [sorting, setSorting] = useState("default_sorting")
   return (
     <div>
       <WebsiteBreadCrumb props={breadcrumb} />
@@ -27,6 +35,21 @@ const ShopPage = () => {
             <Filter />
           </div>
         </div>
+       
+       <Sheet>
+  <SheetTrigger>Open</SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Are you absolutely sure?</SheetTitle>
+      <SheetDescription>
+        This action cannot be undone. This will permanently delete your account
+        and remove your data from our servers.
+      </SheetDescription>
+    </SheetHeader>
+  </SheetContent>
+</Sheet>
+
+
         <div className="lg:w-[calc(100%-18rem)]">
           <Shorting    
           limit={limit}
