@@ -1,36 +1,28 @@
-import { isAuthenticated } from "@/lib/authentication";
 import { connectDB } from "@/lib/db";
 import { catchError, response } from "@/lib/helperFunction";
-import CategoryModel from "@/models/Category.model";
-import { isValidObjectId } from "mongoose";
 
-export async function GET(request, { params }) {
-  try {
-       const auth = await isAuthenticated('admin',request)
-    if (!auth.isAuth){
-        return response(false,403,'Unauthorized')
-    }
+
+export async function GET(request) {
+  try {    
     await connectDB();
 
-    const getParams = await params;
-    const id = getParams.id;
+    const searchParams = request.nextUrl.searchParams
+    
+    // get filters from query params
 
-    const filter = {
-      deletedAt: null,
-    };
+    const size = searchParams.get('size')
+    const color = searchParams.get('color')
+    const minPrice = pareseInt(searchParams.get('minPrice')) || 0
+    const maxPrice = pareseInt(searchParams.get('maxPrice')) || 0
+    const category = searchParams.get('category')
+    const search = searchParams.get('q')
 
-    if (!isValidObjectId(id)) {
-      return response(false, 404, "Invalid object id");
-    }
+    // pagination
 
-    filter._id = id;
-    const getCategory = await CategoryModel.findOne(filter).lean();
 
-    if (!getCategory) {
-      return response(false, 404, "Category not found");
-    }
 
-    return response(true, 200, "Category Found", getCategory);
+
+   
   } catch (error) {
     return catchError(error);
   }
