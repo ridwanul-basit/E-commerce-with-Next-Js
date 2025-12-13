@@ -1,4 +1,11 @@
 import React from 'react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const Shorting = ({limit,setLimit,sorting,setSorting,mobileFilterOpen,setMobileFilterOpen}) => {
   return (
@@ -13,6 +20,18 @@ const Shorting = ({limit,setLimit,sorting,setSorting,mobileFilterOpen,setMobileF
             </li>
         ))}
       </ul>
+
+      <Select>
+  <SelectTrigger className='md:w-[180px] w-full bg-white' >
+    <SelectValue placeholder="Default Sorting" />
+  </SelectTrigger>
+  <SelectContent>
+    sortings
+    <SelectItem value="light">Light</SelectItem>
+    <SelectItem value="dark">Dark</SelectItem>
+    <SelectItem value="system">System</SelectItem>
+  </SelectContent>
+</Select>
      
     </div>
   )
